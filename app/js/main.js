@@ -41,6 +41,7 @@
 		var displayObject3 = new CanvasDisplayObject();
 		displayObject3.build();
 		displayObject3.id="d3";
+		displayObject3.type="CIRCLE";
 		displayObject3.style.width(50);
 		displayObject3.style.height(50);
 		displayObject3.style.x(100);

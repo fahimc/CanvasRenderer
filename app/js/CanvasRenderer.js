@@ -1,6 +1,7 @@
 var CanvasRenderer = {
 	types : {
-		RECT : "RECT"
+		RECT : "RECT",
+		CIRCLE : "CIRCLE"
 	},
 	frameRate : 35,
 	timer : null,
@@ -41,7 +42,10 @@ var CanvasRenderer = {
 			
 			switch(displayObject.type) {
 				case this.types.RECT:
-					this.updateRect(canvas, displayObject);
+					this.drawRect(canvas, displayObject);
+					break;
+				case this.types.CIRCLE:
+					this.drawCircle(canvas, displayObject);
 					break;
 			}
 		}
@@ -89,10 +93,24 @@ var CanvasRenderer = {
 		}
 		return null;
 	},
-	updateRect : function(canvas, displayObject) {
+	drawRect : function(canvas, displayObject) {
 		var context = canvas.getContext('2d');
 		context.beginPath();
 		context.rect(displayObject.style.x(), displayObject.style.y(), displayObject.style.width(), displayObject.style.height());
+		context.fillStyle = displayObject.style.backgroundColor();
+		context.fill();
+      	context.lineWidth= displayObject.style.lineWidth();
+		context.strokeStyle = displayObject.style.strokeStyle();
+		context.stroke();
+	},
+	drawCircle : function(canvas, displayObject) {
+		var context = canvas.getContext('2d');
+		context.beginPath();
+		var radius = (displayObject.style.width() *0.5);
+		var centerX =displayObject.style.x()+radius;
+		var centerY =displayObject.style.y()+radius;
+		context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+		//context.rect(displayObject.style.x(), displayObject.style.y(), displayObject.style.width(), displayObject.style.height());
 		context.fillStyle = displayObject.style.backgroundColor();
 		context.fill();
       	context.lineWidth= displayObject.style.lineWidth();
