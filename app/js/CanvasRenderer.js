@@ -106,7 +106,7 @@ var CanvasRenderer = {
 	drawCircle : function(canvas, displayObject) {
 		var context = canvas.getContext('2d');
 		context.beginPath();
-		var radius = (displayObject.style.width() *0.5);
+		var radius = displayObject.style.radius();
 		var centerX =displayObject.style.x()+radius;
 		var centerY =displayObject.style.y()+radius;
 		context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);

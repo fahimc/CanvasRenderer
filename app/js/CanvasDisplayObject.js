@@ -1,28 +1,21 @@
 var CanvasDisplayObject=function(){
-	
+	this.children=[];
+	this.update=false;
+	this.style=null;
+	this.id="";
+	this.uid=null;
+    this.canvasUID=null;
+	this.type=CanvasRenderer.types.RECT;
+	this.build();
 };
 (function()
 {
 	var _ = CanvasDisplayObject.prototype;
-	_.children=[];
-	_.update=false;
-	_.style=null;
-	_.id="";
-	_.uid=null;
-	_.canvasUID=null;
-	_.type=CanvasRenderer.types.RECT;
+	
 	_.build=function()
 	{
 		this.uid = CanvasRenderer.uid++;
 		this.style=new CanvasStyle();
-	};
-	_.setStyle=function()
-	{
-		
-	};
-	_.arrange=function()
-	{
-		
 	};
 	_.hasUpdates=function()
 	{

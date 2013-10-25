@@ -27,6 +27,11 @@ var CanvasStyle=function(){
 		if(value!=undefined)this.updateProp('height',value);
 		return this.props['height']?this.props['height'].value:0;
 	};
+	_.radius=function(value)
+	{
+		if(value!=undefined)this.updateProp('radius',value);
+		return this.props['radius']?this.props['radius'].value:0;
+	};
 	_.backgroundColor=function(value)
 	{
 		if(value!=undefined)this.updateProp('backgroundColor',value);
