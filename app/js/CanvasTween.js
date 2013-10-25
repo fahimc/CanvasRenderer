@@ -12,7 +12,7 @@ var CanvasTween = {
 	},
 	to : function(obj, duration, options) {
 		var root = this;
-
+		
 		if (options.delay) {
 			this.timers[this.index] = setTimeout(function() {
 				root.addItem(obj, duration, options);
@@ -53,7 +53,7 @@ var CanvasTween = {
 				if (name != "onComplete" && name != "delay" && name != "ease") {
 					if (this.items[itemIndex].options[name].originalVal == undefined) {
 						this.items[itemIndex].options[name] = {
-							value : elem.style.parent?elem.style.parent.style[name]()+option:option,
+							value : option,
 							end : false,
 							currentFrame : 0,
 							originalVal : null
@@ -63,8 +63,8 @@ var CanvasTween = {
 
 					total++;
 					var prop = String(option.value).replace("px", "");
-
 					var currentValue = elem.style[name]();
+					
 					if (option.originalVal == null)
 						option.originalVal = currentValue;
 
@@ -78,8 +78,9 @@ var CanvasTween = {
 
 						this.items[itemIndex].obj.style[name](newVal);
 						option.currentFrame++;
-
+						
 					} else {
+						
 						option.end = true;
 						count++;
 					}

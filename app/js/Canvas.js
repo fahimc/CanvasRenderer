@@ -27,7 +27,7 @@ var Canvas=function(){};
 	{
 		return this.element.getContext(value); 
 	};
-	_.addChild=function(displayObject)
+	_.appendChild=function(displayObject)
 	{
 		displayObject.canvasUID=this.uid;
 		this.children.push(displayObject);

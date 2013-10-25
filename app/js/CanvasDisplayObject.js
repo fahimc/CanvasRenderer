@@ -6,7 +6,6 @@ var CanvasDisplayObject=function(){
 	this.uid=null;
     this.canvasUID=null;
 	this.type=CanvasRenderer.types.RECT;
-	this.build();
 };
 (function()
 {
@@ -16,6 +15,8 @@ var CanvasDisplayObject=function(){
 	{
 		this.uid = CanvasRenderer.uid++;
 		this.style=new CanvasStyle();
+		this.style.uid =  CanvasRenderer.uid++;
+		
 	};
 	_.hasUpdates=function()
 	{
@@ -33,11 +34,11 @@ var CanvasDisplayObject=function(){
 	{
 		
 	}
-	_.addChild=function(displayObject)
+	_.appendChild=function(displayObject)
 	{
 		displayObject.style.parent=this;
 		displayObject.canvasUID=this.canvasUID;
 		this.children.push(displayObject);
-		CanvasRenderer.getCanvasByUID(this.canvasUID).addChild(displayObject);
+		CanvasRenderer.getCanvasByUID(this.canvasUID).appendChild(displayObject);
 	};
 })();
