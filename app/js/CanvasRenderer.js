@@ -2,7 +2,8 @@ var CanvasRenderer = {
 	types : {
 		RECT : "RECT",
 		CIRCLE : "CIRCLE",
-		TEXT : "TEXT"
+		TEXT : "TEXT",
+		IMAGE : "IMAGE"
 	},
 	frameRate : 35,
 	timer : null,
@@ -45,6 +46,9 @@ var CanvasRenderer = {
 					break;
 				case this.types.TEXT:
 					this.drawText(canvas, displayObject);
+					break;
+				case this.types.IMAGE:
+					this.drawImage(canvas, displayObject);
 					break;
 			}
 		}
@@ -115,7 +119,6 @@ var CanvasRenderer = {
 		context.stroke();
 	},
 	drawText : function(canvas, d) {
-		console.log("text",d.strokeText);
 		var context = canvas.getContext('2d');
 		var rgb = this.hexToRgb(d.color());
 		context.fillStyle =rgb.replace('[x]', d.style.opacity());
@@ -125,6 +128,13 @@ var CanvasRenderer = {
 		context.textAlign = d.textAlign;
 		context.fillText(d.strokeText,d.style.x(),d.style.y());
 		context.stroke();
+	},
+	drawImage : function(canvas, d) {
+		var context = canvas.getContext('2d');
+		if(d.clipping!=null)
+  		context.drawImage(d.img,d.clipping.x,d.clipping.y,d.clipping.w,d.clipping.h, d.style.x(),d.style.y(),d.style.width(),d.style.height());
+		else
+		context.drawImage(d.img,d.style.x(),d.style.y(),d.style.width(),d.style.height());
 	},
 	hexToRgb : function(hex) {
 		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

@@ -27,7 +27,7 @@ var CanvasStyle=function(){
 	_.height=function(value)
 	{
 		if(value!=undefined)this.updateProp('height',value);
-		return this.props['height']!=undefined?(this.scaleX() * this.props['height'].value):0;
+		return this.props['height']!=undefined?((this.type==CanvasRenderer.types.CIRCLE?this.scaleX():this.scaleY()) * this.props['height'].value):0;
 	};
 	_.scaleX=function(value)
 	{

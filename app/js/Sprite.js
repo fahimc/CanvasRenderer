@@ -1,7 +1,7 @@
 var Sprite = function(){
 	this.beginFill=function(color,opacity)
 	{
-		this.build();
+		if(!this.style)this.build();
 		this.style.backgroundColor(color);
 		if(opacity)this.style.opacity(opacity);
 	};
@@ -11,8 +11,8 @@ var Sprite = function(){
 		this.style.x(x);
 		this.style.y(y);
 		this.style.radius(r);
-		this.style.width(r);
-		this.style.height(r);
+		this.style.width(r * 2);
+		this.style.height(r * 2);
 	};
 	this.drawRect=function(x, y, w,h)
 	{
