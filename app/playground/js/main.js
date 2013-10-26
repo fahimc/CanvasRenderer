@@ -14,6 +14,7 @@
 	}
 	function result()
 	{
+		document.getElementById("display").innerHTML="";
 		var js = code.value.replace('document.body','document.getElementById("display")');
 		try
 		{
