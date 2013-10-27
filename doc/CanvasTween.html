@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: CanvasRenderer</title>
+    <title>JSDoc: Namespace: CanvasTween</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Namespace: CanvasRenderer</h1>
+    <h1 class="page-title">Namespace: CanvasTween</h1>
     
     
 
@@ -27,7 +27,7 @@
     
 <header>
     <h2>
-    CanvasRenderer
+    CanvasTween
     </h2>
     
 </header>  
@@ -62,7 +62,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="CanvasRenderer.js.html">CanvasRenderer.js</a>, <a href="CanvasRenderer.js.html#line1">line 1</a>
+        <a href="CanvasTween.js.html">CanvasTween.js</a>, <a href="CanvasTween.js.html#line1">line 1</a>
     </li></ul></dd>
     
     
@@ -94,7 +94,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="frameRate"><span class="type-signature">&lt;static> </span>frameRate<span class="type-signature"></span></h4>
+    <h4 class="name" id="ease"><span class="type-signature">&lt;static> </span>ease<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -133,108 +133,7 @@
 	
         <tr>
             
-                <td class="name"><code>frameRate</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">this sets the framerate</td>
-        </tr>
-	
-	
-	</tbody>
-</table></dl>
-        
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="CanvasRenderer.js.html">CanvasRenderer.js</a>, <a href="CanvasRenderer.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="types"><span class="type-signature">&lt;static> </span>types<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    
-
-    
-<dl class="details">
-    
-        
-        <h5 class="subsection-title">Properties:</h5>
-        
-        <dl>
-
-<table class="props">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>types</code></td>
+                <td class="name"><code>ease</code></td>
             
             
             <td class="type">
@@ -250,7 +149,7 @@
             
             
             
-            <td class="description last">types of elements
+            <td class="description last">types of eases available
                 <h6>Properties</h6>
 
 <table class="props">
@@ -275,7 +174,7 @@
 	
         <tr>
             
-                <td class="name"><code>RECT</code></td>
+                <td class="name"><code>easeIn</code></td>
             
             
             <td class="type">
@@ -291,14 +190,14 @@
             
             
             
-            <td class="description last">defines a RECT display object</td>
+            <td class="description last">defines an ease in</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>CIRCLE</code></td>
+                <td class="name"><code>easeOut</code></td>
             
             
             <td class="type">
@@ -314,14 +213,14 @@
             
             
             
-            <td class="description last">defines a CIRCLE display object</td>
+            <td class="description last">defines an ease out</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>TEXT</code></td>
+                <td class="name"><code>strongEaseOut</code></td>
             
             
             <td class="type">
@@ -337,14 +236,14 @@
             
             
             
-            <td class="description last">defines a TEXT display object</td>
+            <td class="description last">defines an strong ease out</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>IMAGE</code></td>
+                <td class="name"><code>easeBack</code></td>
             
             
             <td class="type">
@@ -360,7 +259,7 @@
             
             
             
-            <td class="description last">defines a IMAGE display object</td>
+            <td class="description last">defines an ease back</td>
         </tr>
 	
 	
@@ -394,7 +293,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="CanvasRenderer.js.html">CanvasRenderer.js</a>, <a href="CanvasRenderer.js.html#line12">line 12</a>
+        <a href="CanvasTween.js.html">CanvasTween.js</a>, <a href="CanvasTween.js.html#line16">line 16</a>
     </li></ul></dd>
     
     
@@ -418,7 +317,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="getCanvasByUID"><span class="type-signature">&lt;static> </span>getCanvasByUID<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Canvas.html">Canvas</a>}</span></h4>
+    <h4 class="name" id="to"><span class="type-signature">&lt;static> </span>to<span class="signature">(obj, duration, options)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -426,7 +325,7 @@
     
     
     <div class="description">
-        get a canvas wrapper by its uid
+        animate a canvas object
     </div>
     
 
@@ -435,183 +334,200 @@
     
     
     
-    
-    
-<dl class="details">
-    
+        <h5>Parameters:</h5>
         
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="CanvasRenderer.js.html">CanvasRenderer.js</a>, <a href="CanvasRenderer.js.html#line114">line 114</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
+<table class="params">
+    <thead>
+	<tr>
 		
-<span class="param-type"><a href="Canvas.html">Canvas</a></span>
-
-
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="getDisplayByUID"><span class="type-signature">&lt;static> </span>getDisplayByUID<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="CanvasDisplayObject.html">CanvasDisplayObject</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        get an object by its uid
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="CanvasRenderer.js.html">CanvasRenderer.js</a>, <a href="CanvasRenderer.js.html#line98">line 98</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
+		<th>Name</th>
 		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+            
+            <td class="type">
+            
+                
 <span class="param-type"><a href="CanvasDisplayObject.html">CanvasDisplayObject</a></span>
 
 
-	</dd>
-</dl>
-
-        
-    
-    
-</dd>
-
-        
             
-<dt>
-    <h4 class="name" id="render"><span class="type-signature">&lt;static> </span>render<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        This will render the canvas
-    </div>
-    
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">provide a CanvasDisplayObject</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
 
-    
-    
-    
-    
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">provide a duration from 0 to 1</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">provide style attributes and other attributes</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
     
     
     
 <dl class="details">
+    
+        
+        <h5 class="subsection-title">Properties:</h5>
+        
+        <dl>
+
+<table class="props">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>options.onComplete</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Function</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">provide a callback</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>options.delay</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">provide a delay from 0 to 1</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>options.ease</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">provide an ease. Check CanvasTween.ease object for types that are available;</td>
+        </tr>
+	
+	
+	</tbody>
+</table></dl>
+        
     
         
     
@@ -633,7 +549,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="CanvasRenderer.js.html">CanvasRenderer.js</a>, <a href="CanvasRenderer.js.html#line32">line 32</a>
+        <a href="CanvasTween.js.html">CanvasTween.js</a>, <a href="CanvasTween.js.html#line34">line 34</a>
     </li></ul></dd>
     
     

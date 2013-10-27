@@ -1,4 +1,4 @@
-/*! CanvasRenderer - v0.0.1 - 2013-10-26 */
+/*! CanvasRenderer - v0.0.1 - 2013-10-27 */
 var CanvasRenderer = {
 	/**
 	 * @property {Object} types types of elements
@@ -151,7 +151,7 @@ var CanvasRenderer = {
 		context.textBaseline = d.style.textBaseline();
 		context.font = d.style.font();
 		context.lineWidth = d.style.lineWidth();
-		context.textAlign = d.textAlign;
+		context.textAlign = d.style.textAlign();
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
 	},
@@ -189,7 +189,7 @@ var Canvas = function() {
 	_.children = [];
 	_.uid = null;
 	/**
-	 build the DisplayObject
+	 build the Canvas
 	 @public
 	 @alias Canvas.build
 	 @memberOf Canvas
@@ -286,19 +286,32 @@ var Canvas = function() {
 })();
 
 var CanvasDisplayObject=function(){
+	/** @property {Array} children array of children */
 	this.children=[];
+	/** @property {Boolean} update check if this object has been updated */	
 	this.update=false;
+	/** @property {CanvasStyle} the style object */	
 	this.style=null;
+	/** @property {String} id style set an id for the object */	
 	this.id="";
+	/** @property {Number} uid a unique reference for this object */	
 	this.uid=null;
+	/** @property {Number} canvasUID a unique reference for the parent canvas */	
     this.canvasUID=null;
+	/** @property {String} type the type */	
 	this.type=CanvasRenderer.types.RECT;
+	/** @property {String}  state the state of the object*/	
 	this.state="";
 };
 (function()
 {
 	var _ = CanvasDisplayObject.prototype;
-	
+	/**
+	 build the CanvasDisplayObject
+	 @public
+	 @alias build
+	 @memberOf CanvasDisplayObject
+	 */
 	_.build=function()
 	{
 		this.uid = CanvasRenderer.uid++;
@@ -306,6 +319,13 @@ var CanvasDisplayObject=function(){
 		this.style.uid =  CanvasRenderer.uid++;
 		
 	};
+	/**
+	 check if any children has been updated
+	 @public
+	 @alias hasUpdates
+	 @memberOf CanvasDisplayObject
+	 @return {Boolean}
+	 */
 	_.hasUpdates=function()
 	{
 		var has= this.style.check();
@@ -318,7 +338,13 @@ var CanvasDisplayObject=function(){
 		}
 			return has;
 	};
-
+	/**
+	 adds an object to the CanvasDisplayObject
+	 @public
+	 @alias appendChild
+	 @memberOf CanvasDisplayObject
+	 @param {CanvasDisplayObject} displayObject provide a displayobject
+	 */
 	_.appendChild=function(displayObject)
 	{
 		displayObject.style.parent=this;
@@ -326,6 +352,13 @@ var CanvasDisplayObject=function(){
 		this.children.push(displayObject);
 		CanvasRenderer.getCanvasByUID(this.canvasUID).appendChild(displayObject);
 	};
+	/**
+	 removes an object to the CanvasDisplayObject
+	 @public
+	 @alias removeChild
+	 @memberOf CanvasDisplayObject
+	 @param {CanvasDisplayObject} displayObject provide a displayobject
+	 */
 	_.removeChild=function(displayObject)
 	{
 		for (var a = 0; a < this.children.length; a++) {
@@ -339,6 +372,14 @@ var CanvasDisplayObject=function(){
 		}
 		CanvasRenderer.getCanvasByUID(this.canvasUID).removeChild(displayObject);
 	}
+	/**
+	 check if the CanvasDisplayObject is within the points provided
+	 @public
+	 @alias hitTestPoint
+	 @memberOf CanvasDisplayObject
+	 @param {Number} x provide the x value
+	 @param {Number} y provide the y value
+	 */
 	_.hitTestPoint=function(x,y)
 	{
 		if(this.style.x()<=x && x<=this.style.x()+this.style.width() && this.style.y()<=y && y<=this.style.y()+this.style.height())return true;
@@ -389,6 +430,15 @@ var CanvasDisplayObject=function(){
 			if(valid)this.listeners[eventName].callbacks[uid](event);
 		}
 	};
+	/**
+	add Event listeners to the canvas object
+	 @public
+	 @memberOf Canvas
+	 @alias Canvas.addEventListener
+	 @requires CanvasEvent
+	 @param {String} eventName the name of the event
+	 @param {Function} callback the callback function
+	 */
 	_.addEventListener=function(eventName,callback)
 	{
 		
@@ -409,6 +459,15 @@ var CanvasDisplayObject=function(){
 		if(this.listeners[eventName].callbacks[this.uid])return;
 		this.listeners[eventName].callbacks[this.uid]=callback;
 	};
+	/**
+	remove Event listeners to the canvas object
+	 @public
+	 @memberOf Canvas
+	  @requires CanvasEvent
+	 @alias Canvas.removeEventListener
+	 @param {String} eventName the name of the event
+	 @param {Function} callback the callback function
+	 */
 	_.removeEventListener=function(eventName,callback)
 	{
 	
@@ -443,7 +502,15 @@ var CanvasDisplayObject=function(){
 (function()
 {
 	var _ = CanvasDisplayObject.prototype;
-	
+	/**
+	add Event listeners to the CanvasDisplayObject 
+	 @public
+	 @memberOf CanvasDisplayObject
+	 @alias CanvasDisplayObject.addEventListener
+	  @requires CanvasEvent
+	 @param {String} eventName the name of the event
+	 @param {Function} callback the callback function
+	 */
 	_.addEventListener=function(eventName,callback)
 	{
 		//get the canvas
@@ -466,7 +533,15 @@ var CanvasDisplayObject=function(){
 		if(canvas.listeners[eventName].callbacks[this.uid])return;
 		canvas.listeners[eventName].callbacks[this.uid]=callback;
 	};
-	
+	/**
+	remove Event listeners to the CanvasDisplayObject 
+	 @public
+	 @memberOf CanvasDisplayObject
+	 @alias CanvasDisplayObject.removeEventListener
+	  @requires CanvasEvent
+	 @param {String} eventName the name of the event
+	 @param {Function} callback the callback function
+	 */
 	_.removeEventListener=function(eventName,callback)
 	{
 		//get the canvas
@@ -510,9 +585,16 @@ var CanvasDisplayObject=function(){
 })();
 
 var CanvasImage = function() {
+		/** @property {String} type this sets the type*/
 	this.type = CanvasRenderer.types.IMAGE;
 	this.img = null;
 	this.clipping=null;
+		/**
+	 set the image source
+	 @public
+	  @param {String} src string of the source
+	 @return {String} 
+	 */
 	this.src = function(src) {
 		if (!this.style && src)
 			this.build();
@@ -522,6 +604,14 @@ var CanvasImage = function() {
 		}
 		return this.img.src;
 	};
+		/**
+	 create t clipping for the image
+	 @public
+	  @param {Number} x x position
+	  @param {Number} y y position
+	  @param {Number} w width of the crop
+	  @param {Number} h height of the crop
+	 */
 	this.clip=function(x,y,w,h)
 	{
 		if(x==null)this.clipping=null;
@@ -545,68 +635,184 @@ var CanvasStyle=function(){
 (function()
 {
 	var _ = CanvasStyle.prototype;
-	
+	/**
+	 set the width
+	 @public
+	 @alias width
+	 @memberOf CanvasStyle
+	  @param {number} value width
+	 @returns {Number}
+	 */
 	_.width=function(value)
 	{
 		if(value!=undefined)this.updateProp('width',value);
 
 		return this.props['width']!=undefined?(this.scaleX() * this.props['width'].value):0;
 	};
+	/**
+	 set the x position
+	 @public
+	 @alias x
+	 @memberOf CanvasStyle
+	  @param {Number} value x
+	 @returns {Number}
+	 */
 	_.x=function(value)
 	{
 		if(value!=undefined)this.updateProp('x',value);
 		return this.getVal('x',0);
 	};
+	/**
+	 set the y position
+	 @public
+	 @alias y
+	 @memberOf CanvasStyle
+	  @param {Number} value y 
+	 @returns {Number}
+	 */
 	_.y=function(value)
 	{
 		if(value!=undefined)this.updateProp('y',value);
 		return this.getVal('y',0);
 	};
+	/**
+	 set the height
+	 @public
+	 @alias height
+	 @memberOf CanvasStyle
+	  @param {Number} value height
+	 @returns {Number}
+	 */
 	_.height=function(value)
 	{
 		if(value!=undefined)this.updateProp('height',value);
 		return this.props['height']!=undefined?((this.type==CanvasRenderer.types.CIRCLE?this.scaleX():this.scaleY()) * this.props['height'].value):0;
 	};
+	/**
+	 set the scaleX
+	 @public
+	 @alias scaleX
+	 @memberOf CanvasStyle
+	  @param {Number} value from 0 to 1
+	 @returns {Number}
+	 */
 	_.scaleX=function(value)
 	{
 		if(value!=undefined)this.updateProp('scaleX',value);
 		return this.getNested('scaleX',1);
 	};
+	/**
+	 set the scaleY
+	 @public
+	 @alias scaleY
+	 @memberOf CanvasStyle
+	  @param {Number} value from 0 to 1
+	 @returns {Number}
+	 */
 	_.scaleY=function(value)
 	{
 		if(value!=undefined)this.updateProp('scaleY',value);
 		return this.getNested('scaleY',1);
 	};
+	/**
+	 set the radius
+	 @public
+	 @alias radius
+	 @memberOf CanvasStyle
+	  @param {Number} value the radius of a circle
+	 @returns {Number}
+	 */
 	_.radius=function(value)
 	{
 		if(value!=undefined)this.updateProp('radius',value);
 		return this.props['radius']!=undefined?(this.scaleX() * this.props['radius'].value):0;
 	};
+	/**
+	 set the opacity
+	 @public
+	 @alias opacity
+	 @memberOf CanvasStyle
+	  @param {Number} value from 0 to 1
+	 @returns {Number}
+	 */
 	_.opacity=function(value)
 	{
 		if(value!=undefined)this.updateProp('opacity',value);
 		return this.getNested('opacity',1);
 	};
+	/**
+	 set the backgroundColor
+	 @public
+	 @alias backgroundColor
+	 @memberOf CanvasStyle
+	  @param {String} value hex colour
+	 @returns {String}
+	 */
 	_.backgroundColor=function(value)
 	{
 		if(value!=undefined)this.updateProp('backgroundColor',value);
 		return this.props['backgroundColor']!=undefined?this.props['backgroundColor'].value:"";
 	};
+	/**
+	 set the font
+	 @public
+	 @alias font
+	 @memberOf CanvasStyle
+	  @param {String} value string containing font family and size etc.. 
+	 @returns {String}
+	 */
 	_.font=function(value)
 	{
 		if(value!=undefined)this.updateProp('font',value);
 		return this.props['font']!=undefined?this.props['font'].value:"40px san-serif";
 	};
+	/**
+	 set the textBaseline
+	 @public
+	 @alias textBaseline
+	 @memberOf CanvasStyle
+	  @param {String} value top,middle and bottom etc..
+	 @returns {String}
+	 */
 	_.textBaseline =function(value)
 	{
 		if(value!=undefined)this.updateProp('textBaseline',value);
 		return this.props['textBaseline']!=undefined?this.props['textBaseline'].value:"top";
 	};
+	/**
+	 set the textAlign
+	 @public
+	 @alias textAlign
+	 @memberOf CanvasStyle
+	  @param {String} value start etc..
+	 @returns {String}
+	 */
+	_.textAlign =function(value)
+	{
+		if(value!=undefined)this.updateProp('textAlign',value);
+		return this.props['textAlign']!=undefined?this.props['textAlign'].value:"start";
+	};
+	/**
+	 set the lineWidth
+	 @public
+	 @alias lineWidth
+	 @memberOf CanvasStyle
+	  @param {Number} value provide the size
+	 @returns {Number}
+	 */
 	_.lineWidth=function(value)
 	{
 		if(value!=undefined)this.updateProp('lineWidth',value);
 		return this.props['lineWidth']!=undefined?this.props['lineWidth'].value:" ";
 	};
+	/**
+	 set the strokeStyle
+	 @public
+	 @alias String
+	 @memberOf CanvasStyle
+	  @param {String} value hex colour
+	 @returns {String}
+	 */
 	_.strokeStyle=function(value)
 	{
 		if(value!=undefined)this.updateProp('strokeStyle',value);
@@ -658,6 +864,13 @@ var CanvasTween = {
 	items : [],
 	timers : [],
 	render : null,
+	/**
+	 * @property {Object} ease types of eases available
+	 * @property {String} ease.easeIn defines an ease in 
+	 * @property {String} ease.easeOut defines an ease out
+	 * @property {String} ease.strongEaseOut defines an strong ease out 
+	 * @property {String} ease.easeBack defines an ease back 
+	 */
 	ease : {
 		easeIn : "ease-in",
 		easeOut : "ease-out",
@@ -665,6 +878,17 @@ var CanvasTween = {
 		easeBack : "ease-back",
 		easeInOut : "ease-in-out"
 	},
+	/** animate a canvas object
+	 @public
+	 @alias to
+	 @memberOf CanvasTween
+	  @param {CanvasDisplayObject} obj provide a CanvasDisplayObject
+	  @param {Number} duration provide a duration from 0 to 1
+	  @param {Object} options provide style attributes and other attributes
+	  @property {Function} options.onComplete provide a callback
+	  @property {Number} options.delay provide a delay from 0 to 1
+	  @property {String} options.ease provide an ease. Check CanvasTween.ease object for types that are available;
+	 */
 	to : function(obj, duration, options) {
 		var root = this;
 		
@@ -809,12 +1033,29 @@ var CanvasTween = {
 };
 
 var Sprite = function(){
+		/**
+	 set fill colour and opacity
+	 @public
+	 @alias beginFill
+	 @memberOf Sprite
+	  @param {String} color hex colour
+	 @param {Number} opacity 0 to 1
+	 */
 	this.beginFill=function(color,opacity)
 	{
 		if(!this.style)this.build();
 		this.style.backgroundColor(color);
 		if(opacity)this.style.opacity(opacity);
 	};
+	/**
+	 draw a circle
+	 @public
+	 @alias drawCircle
+	 @memberOf Sprite
+	  @param {Number} x x point
+	 @param {Number} y y point
+	 @param {Number} r radius
+	 */
 	this.drawCircle=function(x, y, r)
 	{
 		this.type="CIRCLE";
@@ -824,6 +1065,16 @@ var Sprite = function(){
 		this.style.width(r * 2);
 		this.style.height(r * 2);
 	};
+	/**
+	 draw a rectangle
+	 @public
+	 @alias drawRect
+	 @memberOf Sprite
+	  @param {Number} x x point
+	 @param {Number} y y point
+	 @param {Number} w width provide the width
+	 @param {Number} h height provide the height
+	 */
 	this.drawRect=function(x, y, w,h)
 	{
 		this.type=CanvasRenderer.types.RECT;
@@ -842,32 +1093,36 @@ var Sprite = function(){
 	
 })();
 
-var TextField = function(){
-	this.type=CanvasRenderer.types.TEXT;
-	this.strokeText="";
-	this.textAlign="start";
-	this._color="#000";
-	this.text=function(value)
-	{
-		
-		this.strokeText=value;
+var TextField = function() {
+	/** @property {String} type this sets the type */
+	this.type = CanvasRenderer.types.TEXT;
+	this.strokeText = "";
+	this._color = "#000";
+	/**
+	 set the text
+	 @public
+	 @param {String} value provide the text
+	 */
+	this.text = function(value) {
+
+		this.strokeText = value;
 		CanvasRenderer.render();
 	};
-	this.color=function(value)
-	{
-		if(value)
-		{
-			this._color=value;
-		CanvasRenderer.render();
+	/**
+	 set the colour for the text
+	 @public
+	 @param {String} value provide the hex value
+	 */
+	this.color = function(value) {
+		if (value) {
+			this._color = value;
+			CanvasRenderer.render();
 		}
 		return this._color;
 	};
 };
-(function()
-{
+(function() {
 	TextField.prototype = new CanvasDisplayObject();
 	TextField.prototype.constructor = CanvasDisplayObject;
-	
-	
-	
+
 })();

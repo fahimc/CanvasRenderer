@@ -10,7 +10,7 @@ var Canvas = function() {
 	_.children = [];
 	_.uid = null;
 	/**
-	 build the DisplayObject
+	 build the Canvas
 	 @public
 	 @alias Canvas.build
 	 @memberOf Canvas

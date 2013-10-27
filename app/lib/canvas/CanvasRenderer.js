@@ -153,7 +153,7 @@ var CanvasRenderer = {
 		context.textBaseline = d.style.textBaseline();
 		context.font = d.style.font();
 		context.lineWidth = d.style.lineWidth();
-		context.textAlign = d.textAlign;
+		context.textAlign = d.style.textAlign();
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
 	},
