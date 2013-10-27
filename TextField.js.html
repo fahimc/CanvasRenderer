@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Index</title>
+    <title>JSDoc: Source: TextField.js</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,36 +17,53 @@
 
 <div id="main">
     
-    <h1 class="page-title">Index</h1>
+    <h1 class="page-title">Source: TextField.js</h1>
     
     
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
     <section>
-        <article><h1>CanvasRenderer</h1>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * @constructor
+ */
+var TextField = function() {
+	/** @property {String} type this sets the type */
+	this.type = CanvasRenderer.types.TEXT;
+	this.strokeText = "";
+	this._color = "#000";
+	/**
+	 set the text
+	 @public
+	 @param {String} value provide the text
+	 */
+	this.text = function(value) {
 
-<p>Create Objects which you can render on a canvas and it comes with a tweening engine.</p></article>
+		this.strokeText = value;
+		CanvasRenderer.render();
+	};
+	/**
+	 set the colour for the text
+	 @public
+	 @param {String} value provide the hex value
+	 */
+	this.color = function(value) {
+		if (value) {
+			this._color = value;
+			CanvasRenderer.render();
+		}
+		return this._color;
+	};
+};
+(function() {
+	TextField.prototype = new CanvasDisplayObject();
+	TextField.prototype.constructor = CanvasDisplayObject;
+
+})();
+</code></pre>
+        </article>
     </section>
-
-
 
 
 
