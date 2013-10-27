@@ -4,10 +4,29 @@ module.exports = function(grunt) {
 		pkg : grunt.file.readJSON('package.json'),
 		jsdoc : {
 			dist : {
-				src : ['app/lib/canvas/*.js'],
-				dest : 'doc'
+				src : ['app/lib/canvas/*.js','README.md'],
+				dest : 'doc',
+				options:{
+					template:'template/default'
+				}
 			}
 		},
+		html2md: {
+    main: {
+      options: {
+        encoding: 'utf8'
+      },
+      src: [
+        'doc/*.html'
+      ]
+    },
+  },
+  copy: {
+  main: {
+    src: 'doc/*.md',
+    dest: 'wiki/',
+  },
+},
 		concat : {
 			options : {
 				stripBanners : true,
@@ -33,7 +52,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-jsdoc');
+	grunt.loadNpmTasks('grunt-html2md');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 	// A very basic default task.
-	grunt.registerTask('default', ["concat", "uglify", "jsdoc"]);
+	grunt.registerTask('default', ["concat", "uglify", "jsdoc","html2md","copy"]);
 
 };
