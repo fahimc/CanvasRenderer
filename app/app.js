@@ -4,7 +4,9 @@
 	app.use("/js", express.static("./app/js"));
 	app.use("/css", express.static("./app/css"));
 	app.use("/img", express.static("./app/img"));
-	app.listen(3000);
+	app.use("/lib", express.static("./app/lib"));
+	app.use("/playground", express.static("./app/playground"));
+	app.listen(3001);
 	app.get("/", function(request, response) {
 		response.sendfile("./app/index.html");
 	});

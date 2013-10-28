@@ -10,13 +10,13 @@
 
 	function onLoad() {
 		
-		canvas = new Canvas();
+		var canvas = new Canvas();
 		canvas.build();
 		canvas.width(500);
 		canvas.height(500);
 		document.body.appendChild(canvas.element);
 		
-		 dp = new CanvasDisplayObject();
+		var dp = new CanvasDisplayObject();
 		 dp.build();
 		dp.style.width(20);
 		dp.style.height(20);
