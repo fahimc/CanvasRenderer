@@ -1,5 +1,6 @@
 (function(window) {
 	var code;
+	var data;
 	function Main() {
 		if (window.addEventListener) {
 			window.addEventListener("load", onLoad);
@@ -14,11 +15,22 @@
 	}
 	function result()
 	{
+		data=null;
+		for(var name in this)
+		{
+			console.log(typeof this[name],this[name]);
+			if(typeof this[name] ==="string" && this[name].indexOf())
+			{
+				console.log("found");
+				this[name]=null;
+				delete this[name];
+			}
+		}
 		document.getElementById("display").innerHTML="";
 		var js = code.value.replace('document.body','document.getElementById("display")');
 		try
 		{
-		eval(js);			
+		data = eval(js);			
 		}catch(e)
 		{
 			

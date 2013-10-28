@@ -31,7 +31,7 @@
 		 displayObject2.beginFill('#00f',0.5);
 		displayObject2.id="d2";
 		displayObject2.drawRect(50,50,100,100);
-		displayObject2.style.strokeStyle("#00f");
+		//displayObject2.style.strokeStyle("#00f");
 		displayObject2.style.backgroundColor('#0f0');
 		displayObject2.style.scaleX(0.4);
 		displayObject2.style.scaleY(0.4);
@@ -66,12 +66,25 @@
 		img.clip(null);
 		
 		
+		line = new Sprite();
+
+		line.moveTo(0,0);
+		line.lineTo(30,50);
+		line.lineTo(50,100);
+		line.lineTo(150,100);
+		canvas.appendChild(line);
+		
 		// CanvasTween.to(displayObject2,3,{y:0,x:200,delay:1,ease:CanvasTween.ease.easeIn});
 		CanvasTween.to(displayObject2,3,{scaleX:1,scaleY:1,opacity:1,x:200,y:0});
 		
 		
 		dp.addEventListener('click',onClick);
 		
+		canvas2 = new Canvas();
+		canvas2.build();
+		canvas2.width(500);
+		canvas2.height(500);
+		document.body.appendChild(canvas2.element);
 		
 		// displayObject3.addEventListener('mouseout',onOut);
 	}

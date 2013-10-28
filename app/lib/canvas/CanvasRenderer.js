@@ -8,12 +8,14 @@ var CanvasRenderer = {
 	 * @property {String} types.CIRCLE defines a CIRCLE display object
 	 * @property {String} types.TEXT defines a TEXT display object
 	 * @property {String} types.IMAGE defines a IMAGE display object
+	 * @property {String} types.LINE defines a LINE display object
 	 */
 	types : {
 		RECT : "RECT",
 		CIRCLE : "CIRCLE",
 		TEXT : "TEXT",
-		IMAGE : "IMAGE"
+		IMAGE : "IMAGE",
+		LINE : "LINE"
 	},
 	/** @property {Number} frameRate this sets the framerate*/
 	frameRate : 35,
@@ -66,6 +68,9 @@ var CanvasRenderer = {
 				case this.types.IMAGE:
 					this.drawImage(canvas, displayObject);
 					break;
+				case this.types.LINE:
+					this.drawLine(canvas, displayObject);
+					break;
 			}
 		}
 		this.dispatch();
@@ -93,7 +98,7 @@ var CanvasRenderer = {
 	 @public
 	 @alias getDisplayByUID
 	 @memberOf CanvasRenderer
-	 @return {CanvasDisplayObject} 
+	 @return {CanvasDisplayObject}
 	 */
 	getDisplayByUID : function(uid) {
 		for (var a = 0; a < this.children.length; a++) {
@@ -109,7 +114,7 @@ var CanvasRenderer = {
 	 @public
 	 @alias getCanvasByUID
 	 @memberOf CanvasRenderer
-	 @return {Canvas} 
+	 @return {Canvas}
 	 */
 	getCanvasByUID : function(uid) {
 		for (var a = 0; a < this.children.length; a++) {
@@ -123,13 +128,18 @@ var CanvasRenderer = {
 		var context = canvas.getContext('2d');
 		context.beginPath();
 		context.rect(d.style.x(), d.style.y(), d.style.width(), d.style.height());
-		var rgb = this.hexToRgb(d.style.backgroundColor());
-		context.fillStyle = rgb.replace('[x]', d.style.opacity());
-		context.fill();
-		context.lineWidth = d.style.lineWidth();
-		rgb = this.hexToRgb(d.style.strokeStyle());
-		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
-		context.stroke();
+		if (d.style.backgroundColor()) {
+			var rgb = this.hexToRgb(d.style.backgroundColor());
+			context.fillStyle = rgb.replace('[x]', d.style.opacity());
+			context.fill();
+		}
+		if (d.style.strokeStyle()) {
+			rgb = this.hexToRgb(d.style.strokeStyle());
+			context.lineWidth = d.style.lineWidth();
+			context.strokeStyle = rgb.replace('[x]', d.style.opacity());
+			context.stroke();
+		}
+
 	},
 	drawCircle : function(canvas, d) {
 		var context = canvas.getContext('2d');
@@ -138,13 +148,17 @@ var CanvasRenderer = {
 		var centerX = d.style.x() + radius;
 		var centerY = d.style.y() + radius;
 		context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-		var rgb = this.hexToRgb(d.style.backgroundColor());
-		context.fillStyle = rgb.replace('[x]', d.style.opacity());
-		context.fill();
+		if (d.style.backgroundColor()) {
+			var rgb = this.hexToRgb(d.style.backgroundColor());
+			context.fillStyle = rgb.replace('[x]', d.style.opacity());
+			context.fill();
+		}
+		if (d.style.strokeStyle()) {
 		context.lineWidth = d.style.lineWidth();
-		rgb = this.hexToRgb(d.style.strokeStyle());
-		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
-		context.stroke();
+			rgb = this.hexToRgb(d.style.strokeStyle());
+			context.strokeStyle = rgb.replace('[x]', d.style.opacity());
+			context.stroke();
+		}
 	},
 	drawText : function(canvas, d) {
 		var context = canvas.getContext('2d');
@@ -164,6 +178,24 @@ var CanvasRenderer = {
 		} else {
 			context.drawImage(d.img, d.style.x(), d.style.y(), d.style.width(), d.style.height());
 		}
+	},
+	drawLine : function(canvas, d) {
+		var context = canvas.getContext('2d');
+		context.beginPath();
+		context.moveTo(d.style.x(), d.style.y());
+		for (var name in d.lines) {
+			var line = d.lines[name];
+			context.lineTo(line.x, line.y);
+		}
+		if (d.style.backgroundColor()) {
+			var rgb = this.hexToRgb(d.style.backgroundColor());
+			context.fillStyle = rgb.replace('[x]', d.style.opacity());
+			context.fill();
+		}
+		context.lineWidth = d.style.lineWidth();
+		rgb = this.hexToRgb(d.style.strokeStyle());
+		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
+		context.stroke();
 	},
 	hexToRgb : function(hex) {
 		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

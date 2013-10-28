@@ -2,6 +2,7 @@
  * @constructor
  */
 var Sprite = function(){
+	this.lines=[];
 		/**
 	 set fill colour and opacity
 	 @public
@@ -51,6 +52,35 @@ var Sprite = function(){
 		this.style.y(y);
 		this.style.width(w);
 		this.style.height(h);
+	};
+	/**
+	 start drawing lines
+	 @public
+	 @alias moveTo
+	 @memberOf Sprite
+	  @param {Number} x x point
+	 @param {Number} y y point
+	 */
+	this.moveTo=function(x,y)
+	{
+		if(!this.style)this.build();
+		this.type="LINE";
+		this.style.x(x);
+		this.style.y(x);
+		this.lines=[];
+		console.log(this.style.backgroundColor());
+	};
+	/**
+	 draw a lines
+	 @public
+	 @alias lineTo
+	 @memberOf Sprite
+	  @param {Number} x x point
+	 @param {Number} y y point
+	 */
+	this.lineTo=function(x,y)
+	{
+		this.lines.push({x:x,y:y});
 	};
 };
 (function()

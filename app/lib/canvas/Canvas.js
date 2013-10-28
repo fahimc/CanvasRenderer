@@ -2,13 +2,14 @@
  * @constructor
  */
 var Canvas = function() {
+	this.element = null;
+	this.children = [];
+	this.uid = null;
 };
 (function() {
 	/** @scope Canvas */
 	var _ = Canvas.prototype;
-	_.element = null;
-	_.children = [];
-	_.uid = null;
+	
 	/**
 	 build the Canvas
 	 @public

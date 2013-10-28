@@ -178,7 +178,7 @@ var CanvasStyle=function(){
 	_.lineWidth=function(value)
 	{
 		if(value!=undefined)this.updateProp('lineWidth',value);
-		return this.props['lineWidth']!=undefined?this.props['lineWidth'].value:" ";
+		return this.props['lineWidth']!=undefined?this.props['lineWidth'].value:"";
 	};
 	/**
 	 set the strokeStyle
@@ -191,7 +191,7 @@ var CanvasStyle=function(){
 	_.strokeStyle=function(value)
 	{
 		if(value!=undefined)this.updateProp('strokeStyle',value);
-		return this.props['strokeStyle']!=undefined?this.props['strokeStyle'].value:" ";
+		return this.props['strokeStyle']!=undefined?this.props['strokeStyle'].value:"";
 	};
 	_.updateProp=function(name,val)
 	{
