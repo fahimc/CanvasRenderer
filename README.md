@@ -51,3 +51,8 @@ canvas.appendChild(dp);
 #API
 
 [Canvas Renderer API](http://fahimc.github.io/CanvasRenderer/)
+
+#Examples
+
+[Bar Chart with Animation](http://8fc.co.uk/github/examples/canvasrenderer/example1.html)  
+[Event Listeners](http://8fc.co.uk/github/examples/canvasrenderer/example2.html)
