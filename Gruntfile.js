@@ -11,6 +11,16 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		  lexicon: {
+    all: {
+      src: ["app/lib/canvas/*.js"],
+      dest: "wiki",
+      options: {
+        title: "The Docs",
+        format: "markdown"
+      }
+    }
+  },
 		concat : {
 			options : {
 				stripBanners : true,
@@ -37,7 +47,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-jsdoc');
 	grunt.loadNpmTasks('grunt-github-pages');
+	grunt.loadNpmTasks('grunt-lexicon');
 	// A very basic default task.
 	grunt.registerTask('default', ["concat", "uglify", "jsdoc"]);
+	grunt.registerTask('wiki', ["lexicon"]);
 
 };

@@ -13,7 +13,8 @@
     "grunt-contrib-concat": "*",
     "grunt-jsdoc": "*",
 	"grunt-github-pages":"*",
-	"grunt-copy-to":"*"
+	"grunt-copy-to":"*",
+	"grunt-lexicon":"*"
 	
   }
 }

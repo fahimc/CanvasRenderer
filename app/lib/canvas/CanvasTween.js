@@ -33,7 +33,7 @@ var CanvasTween = {
 	 */
 	to : function(obj, duration, options) {
 		var root = this;
-		
+		this.index++;
 		if (options.delay) {
 			this.timers[this.index] = setTimeout(function() {
 				root.addItem(obj, duration, options);

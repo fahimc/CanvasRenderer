@@ -924,7 +924,7 @@ var CanvasTween = {
 	 */
 	to : function(obj, duration, options) {
 		var root = this;
-		
+		this.index++;
 		if (options.delay) {
 			this.timers[this.index] = setTimeout(function() {
 				root.addItem(obj, duration, options);
@@ -1130,7 +1130,7 @@ var Sprite = function(){
 		if(!this.style)this.build();
 		this.type="LINE";
 		this.style.x(x);
-		this.style.y(x);
+		this.style.y(y);
 		this.lines=[];
 		console.log(this.style.backgroundColor());
 	};

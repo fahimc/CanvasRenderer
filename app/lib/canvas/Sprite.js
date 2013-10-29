@@ -66,7 +66,7 @@ var Sprite = function(){
 		if(!this.style)this.build();
 		this.type="LINE";
 		this.style.x(x);
-		this.style.y(x);
+		this.style.y(y);
 		this.lines=[];
 		console.log(this.style.backgroundColor());
 	};

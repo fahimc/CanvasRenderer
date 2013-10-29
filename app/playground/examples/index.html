@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>index</title>
+		<meta name="author" content="Fahim Chowdhury" />
+		<!-- Date: 2013-10-29 -->
+		<script type="text/javascript" src="../js/CanvasRenderMax.min.js"></script>
+		<script type="text/javascript" src="js/highlight/highlight.pack.js"></script>
+		<script type="text/javascript" src="js/example1.js"></script>
+		<link rel="stylesheet" href="js/highlight/styles/default.css">
+	</head>
+	<body>
+		<div id="canvasHolder">
+			
+		</div>
+		 <pre><code>
+		 	
+		<p>canvas = new Canvas();  canvas.build();  canvas.width(500);  canvas.height(500);  document.body.appendChild(canvas.element);    //bg  var bg=new Sprite();  bg.beginFill(&quot;#333&quot;);  bg.drawRect(0,0,500,500);    canvas.appendChild(bg);    //create line  var line = new Sprite();  line.moveTo(0,350);  line.lineTo(500,350);  line.style.strokeStyle(&quot;#666&quot;);  canvas.appendChild(line);      //draw bars  var x=0;  var numberOfBars =10;  var total = 500 / 50;  for(var a=0;a<total;a++)  {  var height = Math.floor(Math.random() * 200) + 20;  createBar(x,50,height);  x+=50;  }    }    function createBar(x,w,h)  {  var bar = new Sprite();  bar.beginFill(&quot;#0099ff&quot;,0.4);  bar.drawRect(x,350-h,50,h);  bar.style.strokeStyle(&quot;#666&quot;);  canvas.appendChild(bar);  var delay = Math.floor(Math.random() * 3) + 1;  CanvasTween.to(bar,3,{height:0,y:350,delay:delay,ease:&quot;ease-out&quot;,onComplete:function(){bringUp(bar,h);}});  }  function bringUp(bar,h)  {  CanvasTween.to(bar,3,{height:h,y:350-h,ease:&quot;ease-out&quot;,delay:1});  }</p>
+	</code></pre>
+	</body>
+</html>
+
