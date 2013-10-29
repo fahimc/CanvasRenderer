@@ -1,4 +1,4 @@
-/*! CanvasRenderer - v0.0.1 - 2013-10-28 */
+/*! CanvasRenderer - v0.0.1 - 2013-10-29 */
 var CanvasRenderer = {
 	/**
 	 * @property {Object} types types of elements
