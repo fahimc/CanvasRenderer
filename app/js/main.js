@@ -10,13 +10,13 @@
 
 	function onLoad() {
 		
-		var canvas = new Canvas();
+		canvas = new Canvas();
 		canvas.build();
 		canvas.width(500);
 		canvas.height(500);
 		document.body.appendChild(canvas.element);
 		
-		var dp = new CanvasDisplayObject();
+		dp = new CanvasDisplayObject();
 		 dp.build();
 		dp.style.width(20);
 		dp.style.height(20);
@@ -27,15 +27,18 @@
 		canvas.appendChild(dp);
 		
 		displayObject2 = new Sprite();
-		 // displayObject2.build();
 		 displayObject2.beginFill('#00f',0.5);
 		displayObject2.id="d2";
 		displayObject2.drawRect(50,50,100,100);
-		//displayObject2.style.strokeStyle("#00f");
 		displayObject2.style.backgroundColor('#0f0');
 		displayObject2.style.scaleX(0.4);
 		displayObject2.style.scaleY(0.4);
 		canvas.appendChild(displayObject2);
+		
+		var sprite = new Sprite();
+		 sprite.beginFill('#00f',0.5);
+		sprite.drawCircle(0,0,40);
+		canvas.appendChild(sprite);
 		
 		
 		displayObject3 = new Sprite();
@@ -43,8 +46,8 @@
 		 // displayObject3.build();
 		 displayObject3.beginFill('#FFF',1);
 		displayObject3.drawCircle(0,0,40);
-		displayObject3.style.strokeStyle("#000");
-		displayObject3.style.backgroundColor('#FFF');
+		//displayObject3.style.strokeStyle("#000");
+		//displayObject3.style.backgroundColor('#FFF');
 
 		
 		displayObject2.appendChild(displayObject3);

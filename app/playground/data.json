@@ -2,7 +2,11 @@
 	"examples": [
 		{
 			"title": "Create A DisplayObject",
-			"code": " var canvas = new Canvas(); canvas.build(); canvas.width(500); canvas.height(500); document.body.appendChild(canvas.element); var dp = new CanvasDisplayObject(); dp.build(); dp.style.width(20); dp.style.height(20); dp.style.x(20); dp.style.y(20); dp.id=\"d1\"; dp.style.backgroundColor(\"#f00\"); canvas.appendChild(dp);"
+			"code": " //This example creates an instance of a canvas wrapper and builds a basic display object.\n var canvas = new Canvas(); canvas.build(); canvas.width(500); canvas.height(500); document.body.appendChild(canvas.element); var dp = new CanvasDisplayObject(); dp.build(); dp.style.width(20); dp.style.height(20); dp.style.x(20); dp.style.y(20); dp.id=\"d1\"; dp.style.backgroundColor(\"#f00\"); canvas.appendChild(dp);"
+		},
+		{
+			"title": "Create A Sprite",
+			"code": "var canvas = new Canvas(); canvas.build(); canvas.width(500); canvas.height(500); document.body.appendChild(canvas.element); var sprite = new Sprite(); sprite.beginFill('#00f',0.5); sprite.drawCircle(0,0,40); canvas.appendChild(sprite);"
 		}
 	]
 }
