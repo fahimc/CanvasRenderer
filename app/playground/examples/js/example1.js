@@ -9,7 +9,7 @@ var canvas;
 	}
 
 	function onLoad() {
-		hljs.initHighlightingOnLoad();
+	
 
 		canvas = new Canvas();
 		canvas.build();

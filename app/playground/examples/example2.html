@@ -8,7 +8,7 @@
 		<meta name="author" content="Fahim Chowdhury" />
 		<!-- Date: 2013-10-29 -->
 		<script type="text/javascript" src="../js/CanvasRenderMax.min.js"></script>
-		<script type="text/javascript" src="js/example1.js"></script>
+		<script type="text/javascript" src="js/example2.js"></script>
 		<script type="text/javascript" src="js/prettify/run_prettify.js"></script>
 		<link rel="stylesheet" href="../css/prettify.css">
 		<link rel="stylesheet" href="../css/example.css">
@@ -17,7 +17,7 @@
 		<div class="wrapper">
 			<h1>Canvas Renderer Example</h1>
 			<p>
-				This example shows how quickly and easily you can create an animated a bar graph
+				This example show how you can add event listeners to any canvas or display object.
 			</p>
 			<div id="canvasHolder">
 
@@ -26,6 +26,7 @@
 			<pre><code class="prettyprint">
 		 	
 		<br />
+//create a canvas<br />
  canvas = new Canvas();<br />
  canvas.build();<br />
  canvas.width(500);<br />
@@ -39,42 +40,44 @@
  <br />
  canvas.appendChild(bg);<br />
  <br />
- //create line<br />
- var line = new Sprite();<br />
- line.moveTo(0,350);<br />
- line.lineTo(500,350);<br />
- line.style.strokeStyle(&quot;#666&quot;);<br />
- canvas.appendChild(line);<br />
+ //create a circle<br />
+ circle = new Sprite();<br />
+ circle.beginFill('#A8CD1B',0.5);<br />
+ circle.drawCircle(0,0,40);<br />
+ canvas.appendChild(circle);<br />
  <br />
+ //create a label inside of the circle<br />
+ var tf = new TextField();<br />
+ tf.build();<br />
+ tf.text(&quot;DRAG ME&quot;);<br />
+ tf.style.x(40);<br />
+ tf.style.y(40);<br />
+ tf.style.font(&quot;Arial 12px&quot;);<br />
+ tf.style.textAlign(&quot;center&quot;);<br />
+ tf.style.textBaseline(&quot;middle&quot;);<br />
+ tf.color(&quot;#fff&quot;);<br />
+ circle.appendChild(tf);<br />
  <br />
- //draw bars<br />
- var x=0;<br />
- var numberOfBars =10;<br />
- var total = 500 / 50;<br />
- for(var a=0;a<total;a++)<br />
+ //add an event listener<br />
+ circle.addEventListener('mousedown',onDown);<br />
+ <br />
+ }<br />
+ <br />
+ function onDown()<br />
  {<br />
- var height = Math.floor(Math.random() * 200) + 20;<br />
- createBar(x,50,height);<br />
- x+=50;<br />
+ canvas.addEventListener('mousemove',onMove);<br />
+ canvas.addEventListener('mouseup',onUp);<br />
  }<br />
- <br />
- }<br />
- <br />
- function createBar(x,w,h)<br />
+ function onUp(event)<br />
  {<br />
- var bar = new Sprite();<br />
- bar.beginFill(&quot;#0099ff&quot;,0.4);<br />
- bar.drawRect(x,350-h,50,h);<br />
- bar.style.strokeStyle(&quot;#666&quot;);<br />
- canvas.appendChild(bar);<br />
- var delay = Math.floor(Math.random() * 3) + 1;<br />
- CanvasTween.to(bar,3,{height:0,y:350,delay:delay,ease:&quot;ease-out&quot;,onComplete:function(){bringUp(bar,h);}});<br />
+ canvas.removeEventListener('mousemove',onMove);<br />
+ canvas.removeEventListener('mouseup',onUp);<br />
  }<br />
- function bringUp(bar,h)<br />
+ function onMove(event)<br />
  {<br />
- CanvasTween.to(bar,3,{height:h,y:350-h,ease:&quot;ease-out&quot;,delay:1});<br />
- }<br />
-
+ circle.style.x(event.pageX-(canvas.element.offsetLeft+40));<br />
+ circle.style.y(event.pageY-(canvas.element.offsetTop+40));<br />
+ }
 	</code></pre>
 			<div class="footer">
 				<a href="https://github.com/fahimc/CanvasRenderer">Canvas Renderer on Github</a>
