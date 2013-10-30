@@ -129,6 +129,20 @@ var CanvasStyle=function(){
 		return this.props['backgroundColor']!=undefined?this.props['backgroundColor'].value:"";
 	};
 	/**
+	 set the backgroundGradient. The positions are relative to the x and y of the object not the canvas.
+	 @public
+	 @alias backgroundGradient
+	 @memberOf CanvasStyle
+	  @param {String} type type of gradient 'linear' or 'radial'
+	  @param {Array} positions An Array of 4 gradient points, x0,y0,x1,y1 for linear or 6 points for radial. Check w3schools.
+	 @returns {Array} colorStops An Array of colorStops which are also arrays of two items opacity (0 to 1) amd colour.
+	 */
+	_.backgroundGradient=function(type,positions,colorStops)
+	{
+		if(positions!=undefined)this.updateProp('backgroundGradient',{type:type,positions:positions,colorStops:colorStops});
+		return this.props['backgroundGradient']!=undefined?this.props['backgroundGradient'].value:null;
+	};
+	/**
 	 set the font
 	 @public
 	 @alias font

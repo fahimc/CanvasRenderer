@@ -27,6 +27,15 @@ var CanvasRenderer = {
 		CURVE : "CURVE",
 		BEZIER_CURVE : "BEZIER_CURVE"
 	},
+	/**
+	 * @property {Object} gradientType types of gradients
+	 * @property {String} gradientType.LINEAR defines a linear gradient
+	 * @property {String} gradientType.RADIAL defines a radial gradient
+	 */
+	gradientType : {
+		LINEAR : "LINEAR",
+		RADIAL : "RADIAL"
+	},
 	/** @property {Number} frameRate this sets the framerate*/
 	frameRate : 35,
 	timer : null,
@@ -142,7 +151,11 @@ var CanvasRenderer = {
 			var rgb = this.hexToRgb(d.style.backgroundColor());
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
+		} else if (d.style.backgroundGradient()) {
+			
+			this.setGradientBG(d.style.backgroundGradient().type,context,d);
 		}
+			
 		if (d.style.strokeStyle()) {
 			rgb = this.hexToRgb(d.style.strokeStyle());
 			context.lineWidth = d.style.lineWidth();
@@ -203,7 +216,7 @@ var CanvasRenderer = {
 					context.quadraticCurveTo(line.cpx, line.cpy, line.x, line.y);
 					break;
 				case this.lineType.BEZIER_CURVE:
-					context.bezierCurveTo(line.cp1x, line.cp1y,line.cp2x, line.cp2y, line.x, line.y);
+					context.bezierCurveTo(line.cp1x, line.cp1y, line.cp2x, line.cp2y, line.x, line.y);
 					break;
 			}
 
@@ -217,6 +230,30 @@ var CanvasRenderer = {
 		rgb = this.hexToRgb(d.style.strokeStyle());
 		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 		context.stroke();
+	},
+	setGradientBG:function(type,context,d)
+	{
+		var positions = d.style.backgroundGradient().positions;
+		var x = d.style.x();
+		var y = d.style.y();
+			var colorStops = d.style.backgroundGradient().colorStops;
+			var grad;
+			switch(type)
+			{
+				case this.gradientType.LINEAR:
+				grad = context.createLinearGradient(x+positions[0], y+positions[1], x+positions[2], y+positions[3]);
+				break;
+				case this.gradientType.RADIAL:
+				grad = context.createRadialGradient(x+positions[0], y+positions[1], positions[2],x+positions[3], y+positions[4],positions[5]);
+				break;
+			}
+			if (colorStops) {
+				for (var c = 0; c < colorStops.length; c++) {
+					grad.addColorStop(colorStops[c][0], colorStops[c][1]);
+				}
+			}
+			context.fillStyle=grad;
+			context.fill();
 	},
 	hexToRgb : function(hex) {
 		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

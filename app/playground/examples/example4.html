@@ -8,6 +8,8 @@
 		<meta name="author" content="Fahim Chowdhury" />
 		<!-- Date: 2013-10-29 -->
 		<script type="text/javascript" src="js/CanvasRenderMax.min.js"></script>
+		<script type="text/javascript" src="../../lib/canvas/CanvasStyle.js"></script>
+		<script type="text/javascript" src="../../lib/canvas/CanvasRenderer.js"></script>
 		<script type="text/javascript" src="js/example4.js"></script>
 		<script type="text/javascript" src="js/prettify/run_prettify.js"></script>
 		<link rel="stylesheet" href="css/prettify.css">
@@ -26,7 +28,7 @@
 			<pre><code class="prettyprint">
 		 	
 	<br />
- //create a canvas<br />
+//create a canvas<br />
  canvas = new Canvas();<br />
  canvas.build();<br />
  canvas.width(500);<br />
@@ -37,7 +39,6 @@
  var bg = new Sprite();<br />
  bg.beginFill(&quot;#333&quot;);<br />
  bg.drawRect(0, 0, 500, 500);<br />
-<br />
  canvas.appendChild(bg);<br />
 <br />
  //create a circle<br />
@@ -46,10 +47,12 @@
  circle.drawCircle(0, 0, 40);<br />
  canvas.appendChild(circle);<br />
 <br />
- //create a rectangle<br />
+ //create a rectangle with a gradient bg<br />
  rect = new Sprite();<br />
- rect.beginFill('#3F4C6B', 0.8);<br />
- rect.drawRect(100, 300, 100, 100);<br />
+ rect.beginFill('#3F4C6B', 1);<br />
+ rect.drawRect(100, 300, 150, 150);<br />
+ rect.style.backgroundColor(&quot;&quot;);<br />
+ rect.style.backgroundGradient(CanvasRenderer.gradientType.LINEAR,[0,0,0,100],[[0,&quot;#3F4C6B&quot;],[1,&quot;#9F3C9B&quot;]]);<br />
  canvas.appendChild(rect);<br />
 <br />
  //create a line<br />

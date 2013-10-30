@@ -98,7 +98,7 @@ var Sprite = function(){
 	/**
 	 draw a bezier curved line
 	 @public
-	 @alias bezierCurveTo
+	 @alias Sprite.bezierCurveTo
 	 @memberOf Sprite
 	  @param {Number} cp1x The x-coordinate of the first Bézier control point
 	  @param {Number} cp1y The y-coordinate of the first Bézier control point

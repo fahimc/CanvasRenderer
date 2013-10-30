@@ -55,4 +55,6 @@ canvas.appendChild(dp);
 #Examples
 
 [Bar Chart with Animation](http://8fc.co.uk/github/examples/canvasrenderer/example1.html)  
-[Event Listeners](http://8fc.co.uk/github/examples/canvasrenderer/example2.html)
+[Event Listeners](http://8fc.co.uk/github/examples/canvasrenderer/example2.html)  
+[Canvas Animations](http://8fc.co.uk/github/examples/canvasrenderer/example3.html)  
+[Using Sprite Object](http://8fc.co.uk/github/examples/canvasrenderer/example4.html)  

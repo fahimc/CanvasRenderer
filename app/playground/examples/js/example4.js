@@ -22,7 +22,6 @@
 		var bg = new Sprite();
 		bg.beginFill("#333");
 		bg.drawRect(0, 0, 500, 500);
-
 		canvas.appendChild(bg);
 
 		//create a circle
@@ -31,10 +30,12 @@
 		circle.drawCircle(0, 0, 40);
 		canvas.appendChild(circle);
 
-		//create a rectangle
+		//create a rectangle with a gradient bg
 		rect = new Sprite();
-		rect.beginFill('#3F4C6B', 0.8);
-		rect.drawRect(100, 300, 100, 100);
+		rect.beginFill('#3F4C6B', 1);
+		rect.drawRect(100, 300, 150, 150);
+		rect.style.backgroundColor("");
+		rect.style.backgroundGradient(CanvasRenderer.gradientType.LINEAR,[0,0,0,100],[[0,"#3F4C6B"],[1,"#9F3C9B"]]);
 		canvas.appendChild(rect);
 
 		//create a line

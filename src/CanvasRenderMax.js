@@ -25,6 +25,15 @@ var CanvasRenderer = {
 		CURVE : "CURVE",
 		BEZIER_CURVE : "BEZIER_CURVE"
 	},
+	/**
+	 * @property {Object} gradientType types of gradients
+	 * @property {String} gradientType.LINEAR defines a linear gradient
+	 * @property {String} gradientType.RADIAL defines a radial gradient
+	 */
+	gradientType : {
+		LINEAR : "LINEAR",
+		RADIAL : "RADIAL"
+	},
 	/** @property {Number} frameRate this sets the framerate*/
 	frameRate : 35,
 	timer : null,
@@ -140,7 +149,11 @@ var CanvasRenderer = {
 			var rgb = this.hexToRgb(d.style.backgroundColor());
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
+		} else if (d.style.backgroundGradient()) {
+			
+			this.setGradientBG(d.style.backgroundGradient().type,context,d);
 		}
+			
 		if (d.style.strokeStyle()) {
 			rgb = this.hexToRgb(d.style.strokeStyle());
 			context.lineWidth = d.style.lineWidth();
@@ -201,7 +214,7 @@ var CanvasRenderer = {
 					context.quadraticCurveTo(line.cpx, line.cpy, line.x, line.y);
 					break;
 				case this.lineType.BEZIER_CURVE:
-					context.bezierCurveTo(line.cp1x, line.cp1y,line.cp2x, line.cp2y, line.x, line.y);
+					context.bezierCurveTo(line.cp1x, line.cp1y, line.cp2x, line.cp2y, line.x, line.y);
 					break;
 			}
 
@@ -215,6 +228,30 @@ var CanvasRenderer = {
 		rgb = this.hexToRgb(d.style.strokeStyle());
 		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 		context.stroke();
+	},
+	setGradientBG:function(type,context,d)
+	{
+		var positions = d.style.backgroundGradient().positions;
+		var x = d.style.x();
+		var y = d.style.y();
+			var colorStops = d.style.backgroundGradient().colorStops;
+			var grad;
+			switch(type)
+			{
+				case this.gradientType.LINEAR:
+				grad = context.createLinearGradient(x+positions[0], y+positions[1], x+positions[2], y+positions[3]);
+				break;
+				case this.gradientType.RADIAL:
+				grad = context.createRadialGradient(x+positions[0], y+positions[1], positions[2],x+positions[3], y+positions[4],positions[5]);
+				break;
+			}
+			if (colorStops) {
+				for (var c = 0; c < colorStops.length; c++) {
+					grad.addColorStop(colorStops[c][0], colorStops[c][1]);
+				}
+			}
+			context.fillStyle=grad;
+			context.fill();
 	},
 	hexToRgb : function(hex) {
 		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -808,6 +845,20 @@ var CanvasStyle=function(){
 		return this.props['backgroundColor']!=undefined?this.props['backgroundColor'].value:"";
 	};
 	/**
+	 set the backgroundGradient. The positions are relative to the x and y of the object not the canvas.
+	 @public
+	 @alias backgroundGradient
+	 @memberOf CanvasStyle
+	  @param {String} type type of gradient 'linear' or 'radial'
+	  @param {Array} positions An Array of 4 gradient points, x0,y0,x1,y1 for linear or 6 points for radial. Check w3schools.
+	 @returns {Array} colorStops An Array of colorStops which are also arrays of two items opacity (0 to 1) amd colour.
+	 */
+	_.backgroundGradient=function(type,positions,colorStops)
+	{
+		if(positions!=undefined)this.updateProp('backgroundGradient',{type:type,positions:positions,colorStops:colorStops});
+		return this.props['backgroundGradient']!=undefined?this.props['backgroundGradient'].value:null;
+	};
+	/**
 	 set the font
 	 @public
 	 @alias font
@@ -1183,7 +1234,7 @@ var Sprite = function(){
 	/**
 	 draw a bezier curved line
 	 @public
-	 @alias bezierCurveTo
+	 @alias Sprite.bezierCurveTo
 	 @memberOf Sprite
 	  @param {Number} cp1x The x-coordinate of the first Bézier control point
 	  @param {Number} cp1y The y-coordinate of the first Bézier control point
