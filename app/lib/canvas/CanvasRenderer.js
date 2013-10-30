@@ -17,6 +17,16 @@ var CanvasRenderer = {
 		IMAGE : "IMAGE",
 		LINE : "LINE"
 	},
+	/**
+	 * @property {Object} lineType types of lines
+	 * @property {String} lineType.LINE defines a striaght line
+	 * @property {String} lineType.CURVE defines a curved line
+	 */
+	lineType : {
+		LINE : "LINE",
+		CURVE : "CURVE",
+		BEZIER_CURVE : "BEZIER_CURVE"
+	},
 	/** @property {Number} frameRate this sets the framerate*/
 	frameRate : 35,
 	timer : null,
@@ -154,7 +164,7 @@ var CanvasRenderer = {
 			context.fill();
 		}
 		if (d.style.strokeStyle()) {
-		context.lineWidth = d.style.lineWidth();
+			context.lineWidth = d.style.lineWidth();
 			rgb = this.hexToRgb(d.style.strokeStyle());
 			context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 			context.stroke();
@@ -185,7 +195,18 @@ var CanvasRenderer = {
 		context.moveTo(d.style.x(), d.style.y());
 		for (var name in d.lines) {
 			var line = d.lines[name];
-			context.lineTo(line.x, line.y);
+			switch(line.type) {
+				case this.lineType.LINE:
+					context.lineTo(line.x, line.y);
+					break;
+				case this.lineType.CURVE:
+					context.quadraticCurveTo(line.cpx, line.cpy, line.x, line.y);
+					break;
+				case this.lineType.BEZIER_CURVE:
+					context.bezierCurveTo(line.cp1x, line.cp1y,line.cp2x, line.cp2y, line.x, line.y);
+					break;
+			}
+
 		}
 		if (d.style.backgroundColor()) {
 			var rgb = this.hexToRgb(d.style.backgroundColor());
@@ -209,7 +230,7 @@ var CanvasRenderer = {
 			r : parseInt(result[1], 16),
 			g : parseInt(result[2], 16),
 			b : parseInt(result[3], 16)
-		}
+		};
 		return 'rgba(' + data.r + ',' + data.g + ',' + data.b + ',' + '[x])';
 	}
 };

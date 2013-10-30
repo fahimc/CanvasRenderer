@@ -21,7 +21,6 @@ var canvas;
 		var bg=new Sprite();
 		bg.beginFill("#333");
 		bg.drawRect(0,0,500,500);
-		
 		canvas.appendChild(bg);
 		
 		//create line

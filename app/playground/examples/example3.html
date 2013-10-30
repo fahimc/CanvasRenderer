@@ -8,7 +8,7 @@
 		<meta name="author" content="Fahim Chowdhury" />
 		<!-- Date: 2013-10-29 -->
 		<script type="text/javascript" src="js/CanvasRenderMax.min.js"></script>
-		<script type="text/javascript" src="js/example2.js"></script>
+		<script type="text/javascript" src="js/example3.js"></script>
 		<script type="text/javascript" src="js/prettify/run_prettify.js"></script>
 		<link rel="stylesheet" href="css/prettify.css">
 		<link rel="stylesheet" href="css/example.css">
@@ -17,7 +17,7 @@
 		<div class="wrapper">
 			<h1>Canvas Renderer Example</h1>
 			<p>
-				This example shows how you can add event listeners to any canvas or display object.
+				This example shows how you can animate a display object using CanvasTween.
 			</p>
 			<div id="canvasHolder">
 
@@ -46,38 +46,9 @@
  circle.drawCircle(0,0,40);<br />
  canvas.appendChild(circle);<br />
  <br />
- //create a label inside of the circle<br />
- var tf = new TextField();<br />
- tf.build();<br />
- tf.text(&quot;DRAG ME&quot;);<br />
- tf.style.x(40);<br />
- tf.style.y(40);<br />
- tf.style.font(&quot;Arial 12px&quot;);<br />
- tf.style.textAlign(&quot;center&quot;);<br />
- tf.style.textBaseline(&quot;middle&quot;);<br />
- tf.color(&quot;#fff&quot;);<br />
- circle.appendChild(tf);<br />
+ //animate Circle<br />
  <br />
- //add an event listener<br />
- circle.addEventListener('mousedown',onDown);<br />
- <br />
- }<br />
- <br />
- function onDown()<br />
- {<br />
- canvas.addEventListener('mousemove',onMove);<br />
- canvas.addEventListener('mouseup',onUp);<br />
- }<br />
- function onUp(event)<br />
- {<br />
- canvas.removeEventListener('mousemove',onMove);<br />
- canvas.removeEventListener('mouseup',onUp);<br />
- }<br />
- function onMove(event)<br />
- {<br />
- circle.style.x(event.pageX-(canvas.element.offsetLeft+40));<br />
- circle.style.y(event.pageY-(canvas.element.offsetTop+40));<br />
- }
+ CanvasTween.to(circle,1,{x:200,y:100,delay:1,ease:&quot;ease-in&quot;});
 	</code></pre>
 			<div class="footer">
 				<a href="https://github.com/fahimc/CanvasRenderer">Canvas Renderer on Github</a>

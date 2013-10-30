@@ -193,6 +193,7 @@ var CanvasRenderer = {
 		context.moveTo(d.style.x(), d.style.y());
 		for (var name in d.lines) {
 			var line = d.lines[name];
+			console.log(line);
 			switch(line.type) {
 				case this.lineType.LINE:
 					context.lineTo(line.x, line.y);

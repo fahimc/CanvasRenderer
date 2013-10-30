@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Canvas Renderer Examples</title>
+		<meta name="author" content="Fahim Chowdhury" />
+		<!-- Date: 2013-10-29 -->
+		<script type="text/javascript" src="js/CanvasRenderMax.min.js"></script>
+		<script type="text/javascript" src="js/example4.js"></script>
+		<script type="text/javascript" src="js/prettify/run_prettify.js"></script>
+		<link rel="stylesheet" href="css/prettify.css">
+		<link rel="stylesheet" href="css/example.css">
+	</head>
+	<body>
+		<div class="wrapper">
+			<h1>Canvas Renderer Example</h1>
+			<p>
+				This example show how to create various shapes and lines with a Sprite object.
+			</p>
+			<div id="canvasHolder">
+
+			</div>
+			<h2>The Code</h2>
+			<pre><code class="prettyprint">
+		 	
+	<br />
+ //create a canvas<br />
+ canvas = new Canvas();<br />
+ canvas.build();<br />
+ canvas.width(500);<br />
+ canvas.height(500);<br />
+ document.getElementById('canvasHolder').appendChild(canvas.element);<br />
+<br />
+ //bg<br />
+ var bg = new Sprite();<br />
+ bg.beginFill(&quot;#333&quot;);<br />
+ bg.drawRect(0, 0, 500, 500);<br />
+<br />
+ canvas.appendChild(bg);<br />
+<br />
+ //create a circle<br />
+ circle = new Sprite();<br />
+ circle.beginFill('#A8CD1B', 0.5);<br />
+ circle.drawCircle(0, 0, 40);<br />
+ canvas.appendChild(circle);<br />
+<br />
+ //create a rectangle<br />
+ rect = new Sprite();<br />
+ rect.beginFill('#3F4C6B', 0.8);<br />
+ rect.drawRect(100, 300, 100, 100);<br />
+ canvas.appendChild(rect);<br />
+<br />
+ //create a line<br />
+ line = new Sprite();<br />
+ line.moveTo(230, 230);<br />
+ line.lineTo(280, 230);<br />
+ line.lineTo(280, 280);<br />
+ line.quadraticCurveTo(280, 380, 400, 280);<br />
+ line.lineTo(320, 200);<br />
+ line.bezierCurveTo(320, 300, 400, 300, 400, 320);<br />
+ line.style.strokeStyle(&quot;#B02B2C&quot;);<br />
+ line.style.lineWidth(3);<br />
+<br />
+ canvas.appendChild(line);<br />
+ <br />
+ <br />
+ //create a custom shape<br />
+ custom = new Sprite();<br />
+ custom.moveTo(170, 80);<br />
+ custom.bezierCurveTo(130, 100, 130, 150, 230, 150);<br />
+ custom.bezierCurveTo(250, 180, 320, 180, 340, 150);<br />
+ custom.bezierCurveTo(420, 150, 420, 120, 390, 100);<br />
+ custom.bezierCurveTo(430, 40, 370, 30, 340, 50);<br />
+ custom.bezierCurveTo(320, 5, 250, 20, 250, 50);<br />
+ custom.bezierCurveTo(200, 5, 150, 20, 170, 80);<br />
+ custom.style.strokeStyle(&quot;#C79810&quot;);<br />
+ custom.style.backgroundColor(&quot;#C79810&quot;);<br />
+ custom.style.opacity(0.5);<br />
+ canvas.appendChild(custom);
+	</code></pre>
+			<div class="footer">
+				<a href="https://github.com/fahimc/CanvasRenderer">Canvas Renderer on Github</a>
+			</div>
+		</div>
+	</body>
+</html>
+

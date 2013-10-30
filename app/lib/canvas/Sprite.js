@@ -68,7 +68,6 @@ var Sprite = function(){
 		this.style.x(x);
 		this.style.y(y);
 		this.lines=[];
-		console.log(this.style.backgroundColor());
 	};
 	/**
 	 draw a lines
@@ -80,7 +79,37 @@ var Sprite = function(){
 	 */
 	this.lineTo=function(x,y)
 	{
-		this.lines.push({x:x,y:y});
+		this.lines.push({type:CanvasRenderer.lineType.LINE,x:x,y:y});
+	};
+	/**
+	 draw a quadratic curved line
+	 @public
+	 @alias quadraticCurveTo
+	 @memberOf Sprite
+	  @param {Number} cpx The x-coordinate of the Bézier control point
+	  @param {Number} cpy The y-coordinate of the Bézier control point
+	  @param {Number} x end x point
+	 @param {Number} y end y point
+	 */
+	this.quadraticCurveTo=function(cpx,cpy,x,y)
+	{
+		this.lines.push({type:CanvasRenderer.lineType.CURVE,x:x,y:y,cpx:cpx,cpy:cpy});
+	};
+	/**
+	 draw a bezier curved line
+	 @public
+	 @alias bezierCurveTo
+	 @memberOf Sprite
+	  @param {Number} cp1x The x-coordinate of the first Bézier control point
+	  @param {Number} cp1y The y-coordinate of the first Bézier control point
+	   @param {Number} cp2x The x-coordinate of the second Bézier control point
+	  @param {Number} cp2y The y-coordinate of the second Bézier control point
+	  @param {Number} x end x point
+	 @param {Number} y end y point
+	 */
+	this.bezierCurveTo=function(cp1x,cp1y,cp2x,cp2y,x,y)
+	{
+		this.lines.push({type:CanvasRenderer.lineType.BEZIER_CURVE,x:x,y:y,cp1x:cp1x,cp1y:cp1y,cp2x:cp2x,cp2y:cp2y});
 	};
 };
 (function()
