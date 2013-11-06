@@ -25,6 +25,9 @@ Another extension call CanvasEvents gives the canvas and displayobjects 'addEven
 
 The library consists of two main components, the Canvas object and the DisplayObject.   
 
+###Structure of this Library  
+![Structure](https://raw.github.com/fahimc/CanvasRenderer/master/CanvasRenderer.jpg)  
+
 ###Canvas
 The Canvas is a wrapper for the HTML5 canvas and it stores a reference to object which have been appended to it. You can create multiple instances of the canvas wrapper.
 ###DisplayObject
