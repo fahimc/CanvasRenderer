@@ -28,16 +28,21 @@ The Canvas is a wrapper for the HTML5 canvas and it stores a reference to object
 ###DisplayObject
 The DisplayObject the base level object which you can extend to make your own custom components. This like the canvas can have children associated with it and contains a style method where you can set different style attributes. 
 
+###Style
+The style object works like the DOM stlye object, it allows you to change styling properties such as height, width, background colour, rotation and opacity etc.  
+This is the heart of the library as only changes to a style will render the canvas but you can call CanvasRenderer.render() manually if required.   
 
 ##Example Code
 
 ```
+//creating a canvas wrapper
 canvas = new Canvas();
 canvas.build();
 canvas.width(500);
 canvas.height(500);
 document.getElementById('canvasHolder').appendChild(canvas.element);
 
+//creating a base level display object
 dp = new CanvasDisplayObject();
 dp.build();
 dp.style.width(20);
@@ -46,6 +51,19 @@ dp.style.x(20);
 dp.style.y(20);
 dp.style.backgroundColor('#f00');
 canvas.appendChild(dp);
+
+
+//create a circle
+circle = new Sprite();
+circle.beginFill('#A8CD1B', 0.5);
+circle.drawCircle(0, 0, 40);
+canvas.appendChild(circle);
+
+//set style properties
+circle.style.opacity(0.8)'
+circle.style.rotate(45);
+
+
 ```
   
 #API
