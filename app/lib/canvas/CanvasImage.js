@@ -35,7 +35,7 @@ var CanvasImage = function() {
 		else
 		this.clipping={x:x,y:y,w:w,h:h};
 		CanvasRenderer.render();		
-	}
+	};
 };
 (function() {
 	CanvasImage.prototype = new CanvasDisplayObject();

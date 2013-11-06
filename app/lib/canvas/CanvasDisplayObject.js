@@ -87,7 +87,7 @@ var CanvasDisplayObject=function(){
 			}
 		}
 		CanvasRenderer.getCanvasByUID(this.canvasUID).removeChild(displayObject);
-	}
+	};
 	/**
 	 check if the CanvasDisplayObject is within the points provided
 	 @public
@@ -100,5 +100,5 @@ var CanvasDisplayObject=function(){
 	{
 		if(this.style.x()<=x && x<=this.style.x()+this.style.width() && this.style.y()<=y && y<=this.style.y()+this.style.height())return true;
 		return false;
-	}
+	};
 })();

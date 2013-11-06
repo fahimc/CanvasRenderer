@@ -1,4 +1,4 @@
-/*! CanvasRenderer - v0.0.1 - 2013-10-30 */
+/*! CanvasRenderer - v0.0.1 - 2013-11-06 */
 var CanvasRenderer = {
 	/**
 	 * @property {Object} types types of elements
@@ -462,7 +462,7 @@ var CanvasDisplayObject=function(){
 			}
 		}
 		CanvasRenderer.getCanvasByUID(this.canvasUID).removeChild(displayObject);
-	}
+	};
 	/**
 	 check if the CanvasDisplayObject is within the points provided
 	 @public
@@ -475,7 +475,7 @@ var CanvasDisplayObject=function(){
 	{
 		if(this.style.x()<=x && x<=this.style.x()+this.style.width() && this.style.y()<=y && y<=this.style.y()+this.style.height())return true;
 		return false;
-	}
+	};
 })();
 
 (function()
@@ -709,7 +709,7 @@ var CanvasImage = function() {
 		else
 		this.clipping={x:x,y:y,w:w,h:h};
 		CanvasRenderer.render();		
-	}
+	};
 };
 (function() {
 	CanvasImage.prototype = new CanvasDisplayObject();
@@ -1216,6 +1216,7 @@ var Sprite = function(){
 	this.lineTo=function(x,y)
 	{
 		this.lines.push({type:CanvasRenderer.lineType.LINE,x:x,y:y});
+		CanvasRenderer.render();
 	};
 	/**
 	 draw a quadratic curved line
@@ -1230,6 +1231,7 @@ var Sprite = function(){
 	this.quadraticCurveTo=function(cpx,cpy,x,y)
 	{
 		this.lines.push({type:CanvasRenderer.lineType.CURVE,x:x,y:y,cpx:cpx,cpy:cpy});
+		CanvasRenderer.render();
 	};
 	/**
 	 draw a bezier curved line
@@ -1246,6 +1248,7 @@ var Sprite = function(){
 	this.bezierCurveTo=function(cp1x,cp1y,cp2x,cp2y,x,y)
 	{
 		this.lines.push({type:CanvasRenderer.lineType.BEZIER_CURVE,x:x,y:y,cp1x:cp1x,cp1y:cp1y,cp2x:cp2x,cp2y:cp2y});
+		CanvasRenderer.render();
 	};
 };
 (function()
