@@ -143,28 +143,32 @@ var CanvasRenderer = {
 	},
 	drawRect : function(canvas, d) {
 		var context = canvas.getContext('2d');
+		
 		context.beginPath();
+		this.setRotation(d, context);
 		context.rect(d.style.x(), d.style.y(), d.style.width(), d.style.height());
 		if (d.style.backgroundColor()) {
 			var rgb = this.hexToRgb(d.style.backgroundColor());
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
 		} else if (d.style.backgroundGradient()) {
-			
-			this.setGradientBG(d.style.backgroundGradient().type,context,d);
+
+			this.setGradientBG(d.style.backgroundGradient().type, context, d);
 		}
-			
+
 		if (d.style.strokeStyle()) {
 			rgb = this.hexToRgb(d.style.strokeStyle());
 			context.lineWidth = d.style.lineWidth();
 			context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 			context.stroke();
 		}
-
+		context.restore();
 	},
 	drawCircle : function(canvas, d) {
 		var context = canvas.getContext('2d');
+	
 		context.beginPath();
+		this.setRotation(d, context);
 		var radius = d.style.radius();
 		var centerX = d.style.x() + radius;
 		var centerY = d.style.y() + radius;
@@ -180,38 +184,42 @@ var CanvasRenderer = {
 			context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 			context.stroke();
 		}
+		context.restore();
 	},
 	drawText : function(canvas, d) {
 		var context = canvas.getContext('2d');
-		context.save();
-		if(d.style.rotate()!=null)
-		{
-			
-			context.rotate(d.style.rotate());
-		}
+		
+		context.font = d.style.font();
+		context.textBaseline = d.style.textBaseline();
+		context.textAlign = d.style.textAlign();
 		var rgb = this.hexToRgb(d.color());
 		context.fillStyle = rgb.replace('[x]', d.style.opacity());
-		context.textBaseline = d.style.textBaseline();
-		context.font = d.style.font();
 		context.lineWidth = d.style.lineWidth();
-		context.textAlign = d.style.textAlign();
-		
+		this.setRotation(d, context, true);
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
-		 context.restore();
 		context.stroke();
+		context.restore();
 	},
 	drawImage : function(canvas, d) {
 		var context = canvas.getContext('2d');
+		
+		this.setRotation(d, context);
 		if (d.clipping != null) {
 			context.drawImage(d.img, d.clipping.x, d.clipping.y, d.clipping.w, d.clipping.h, d.style.x(), d.style.y(), d.style.width(), d.style.height());
 		} else {
 			context.drawImage(d.img, d.style.x(), d.style.y(), d.style.width(), d.style.height());
 		}
+		context.restore();
 	},
 	drawLine : function(canvas, d) {
 		var context = canvas.getContext('2d');
 		context.beginPath();
+		context.lineWidth = d.style.lineWidth();
+		rgb = this.hexToRgb(d.style.strokeStyle());
+		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
+		this.setRotation(d, context);
 		context.moveTo(d.style.x(), d.style.y());
+		
 		for (var name in d.lines) {
 			var line = d.lines[name];
 			switch(line.type) {
@@ -225,41 +233,50 @@ var CanvasRenderer = {
 					context.bezierCurveTo(line.cp1x, line.cp1y, line.cp2x, line.cp2y, line.x, line.y);
 					break;
 			}
-
 		}
 		if (d.style.backgroundColor()) {
 			var rgb = this.hexToRgb(d.style.backgroundColor());
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
 		}
-		context.lineWidth = d.style.lineWidth();
-		rgb = this.hexToRgb(d.style.strokeStyle());
-		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
+		
 		context.stroke();
+		context.restore();
 	},
-	setGradientBG:function(type,context,d)
-	{
+	setGradientBG : function(type, context, d) {
 		var positions = d.style.backgroundGradient().positions;
 		var x = d.style.x();
 		var y = d.style.y();
-			var colorStops = d.style.backgroundGradient().colorStops;
-			var grad;
-			switch(type)
-			{
-				case this.gradientType.LINEAR:
-				grad = context.createLinearGradient(x+positions[0], y+positions[1], x+positions[2], y+positions[3]);
+		var colorStops = d.style.backgroundGradient().colorStops;
+		var grad;
+		switch(type) {
+			case this.gradientType.LINEAR:
+				grad = context.createLinearGradient(x + positions[0], y + positions[1], x + positions[2], y + positions[3]);
 				break;
-				case this.gradientType.RADIAL:
-				grad = context.createRadialGradient(x+positions[0], y+positions[1], positions[2],x+positions[3], y+positions[4],positions[5]);
+			case this.gradientType.RADIAL:
+				grad = context.createRadialGradient(x + positions[0], y + positions[1], positions[2], x + positions[3], y + positions[4], positions[5]);
 				break;
+		}
+		if (colorStops) {
+			for (var c = 0; c < colorStops.length; c++) {
+				grad.addColorStop(colorStops[c][0], colorStops[c][1]);
 			}
-			if (colorStops) {
-				for (var c = 0; c < colorStops.length; c++) {
-					grad.addColorStop(colorStops[c][0], colorStops[c][1]);
-				}
+		}
+		context.fillStyle = grad;
+		context.fill();
+	},
+	setRotation : function(d, context, isText) {
+		if (d.style.rotate() != null) {
+			context.save();
+			var w = d.style.width();
+			var h = d.style.height();
+			if (isText) {
+				w = context.measureText(d.strokeText).width;
+				d.style.width(w,true);
 			}
-			context.fillStyle=grad;
-			context.fill();
+			context.translate((w * 0.5),  (h * 0.5));
+			context.rotate(d.style.rotate() * Math.PI / 180);
+		}
 	},
 	hexToRgb : function(hex) {
 		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -752,11 +769,12 @@ var CanvasStyle=function(){
 	 @alias width
 	 @memberOf CanvasStyle
 	  @param {number} value width
+	  @param {boolean} noUpdate (optional) set true if you dont want to render the change
 	 @returns {Number}
 	 */
-	_.width=function(value)
+	_.width=function(value,noUpdate)
 	{
-		if(value!=undefined)this.updateProp('width',value);
+		if(value!=undefined)this.updateProp('width',value,noUpdate);
 
 		return this.props['width']!=undefined?(this.scaleX() * this.props['width'].value):0;
 	};
@@ -792,11 +810,12 @@ var CanvasStyle=function(){
 	 @alias height
 	 @memberOf CanvasStyle
 	  @param {Number} value height
+	    @param {boolean} noUpdate (optional) set true if you dont want to render the change
 	 @returns {Number}
 	 */
-	_.height=function(value)
+	_.height=function(value,noUpdate)
 	{
-		if(value!=undefined)this.updateProp('height',value);
+		if(value!=undefined)this.updateProp('height',value,noUpdate);
 		return this.props['height']!=undefined?((this.type==CanvasRenderer.types.CIRCLE?this.scaleX():this.scaleY()) * this.props['height'].value):0;
 	};
 	/**
@@ -861,8 +880,8 @@ var CanvasStyle=function(){
 	 */
 	_.rotate=function(value)
 	{
-		if(value!=undefined)this.updateProp('rotate',value*Math.PI/180);
-		return this.props['rotate']!=undefined?(this.props['rotate'].value/Math.PI/180):null;
+		if(value!=undefined)this.updateProp('rotate',value);
+		return this.props['rotate']!=undefined?(this.props['rotate'].value):null;
 	};
 	/**
 	 set the backgroundColor
@@ -956,14 +975,14 @@ var CanvasStyle=function(){
 		if(value!=undefined)this.updateProp('strokeStyle',value);
 		return this.props['strokeStyle']!=undefined?this.props['strokeStyle'].value:"";
 	};
-	_.updateProp=function(name,val)
+	_.updateProp=function(name,val,noUpdate)
 	{
 		
 		if(!this.props[name])this.props[name]={value:val,updated:false};
 		this.props[name].value = val;
 		this.props[name].updated= true;
 		this.hasUpdates= true;
-		CanvasRenderer.render();
+		if(!noUpdate)CanvasRenderer.render();
 	};
 	_.getVal=function(name,val)
 	{
@@ -1172,6 +1191,14 @@ var CanvasTween = {
 
 var Sprite = function(){
 	this.lines=[];
+	
+};
+(function()
+{
+	Sprite.prototype = new CanvasDisplayObject();
+	Sprite.prototype.constructor = CanvasDisplayObject;
+	
+	var _ =Sprite.prototype;
 		/**
 	 set fill colour and opacity
 	 @public
@@ -1180,7 +1207,7 @@ var Sprite = function(){
 	  @param {String} color hex colour
 	 @param {Number} opacity 0 to 1
 	 */
-	this.beginFill=function(color,opacity)
+	_.beginFill=function(color,opacity)
 	{
 		if(!this.style)this.build();
 		this.style.backgroundColor(color);
@@ -1195,7 +1222,7 @@ var Sprite = function(){
 	 @param {Number} y y point
 	 @param {Number} r radius
 	 */
-	this.drawCircle=function(x, y, r)
+	_.drawCircle=function(x, y, r)
 	{
 		this.type="CIRCLE";
 		this.style.x(x);
@@ -1214,7 +1241,7 @@ var Sprite = function(){
 	 @param {Number} w width provide the width
 	 @param {Number} h height provide the height
 	 */
-	this.drawRect=function(x, y, w,h)
+	_.drawRect=function(x, y, w,h)
 	{
 		this.type=CanvasRenderer.types.RECT;
 		this.style.x(x);
@@ -1230,7 +1257,7 @@ var Sprite = function(){
 	  @param {Number} x x point
 	 @param {Number} y y point
 	 */
-	this.moveTo=function(x,y)
+	_.moveTo=function(x,y)
 	{
 		if(!this.style)this.build();
 		this.type="LINE";
@@ -1246,8 +1273,9 @@ var Sprite = function(){
 	  @param {Number} x x point
 	 @param {Number} y y point
 	 */
-	this.lineTo=function(x,y)
+	_.lineTo=function(x,y)
 	{
+		this.setWidthHeight(x,y);
 		this.lines.push({type:CanvasRenderer.lineType.LINE,x:x,y:y});
 		CanvasRenderer.render();
 	};
@@ -1261,8 +1289,9 @@ var Sprite = function(){
 	  @param {Number} x end x point
 	 @param {Number} y end y point
 	 */
-	this.quadraticCurveTo=function(cpx,cpy,x,y)
+	_.quadraticCurveTo=function(cpx,cpy,x,y)
 	{
+		this.setWidthHeight(x,y);
 		this.lines.push({type:CanvasRenderer.lineType.CURVE,x:x,y:y,cpx:cpx,cpy:cpy});
 		CanvasRenderer.render();
 	};
@@ -1278,19 +1307,17 @@ var Sprite = function(){
 	  @param {Number} x end x point
 	 @param {Number} y end y point
 	 */
-	this.bezierCurveTo=function(cp1x,cp1y,cp2x,cp2y,x,y)
+	_.bezierCurveTo=function(cp1x,cp1y,cp2x,cp2y,x,y)
 	{
+		this.setWidthHeight(x,y);
 		this.lines.push({type:CanvasRenderer.lineType.BEZIER_CURVE,x:x,y:y,cp1x:cp1x,cp1y:cp1y,cp2x:cp2x,cp2y:cp2y});
 		CanvasRenderer.render();
 	};
-};
-(function()
-{
-	Sprite.prototype = new CanvasDisplayObject();
-	Sprite.prototype.constructor = CanvasDisplayObject;
-	
-	
-	
+	_.setWidthHeight=function(x,y)
+	{
+		if(x>this.style.width())this.style.width(x,true);
+		if(y>this.style.height())this.style.width(y,true);
+	};
 })();
 
 var TextField = function() {

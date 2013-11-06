@@ -276,7 +276,7 @@ var CanvasRenderer = {
 				w = context.measureText(d.strokeText).width;
 				d.style.width(w,true);
 			}
-			context.translate(d.style.x() + (w * 0.5), d.style.y() + (h * 0.5));
+			context.translate((w * 0.5),  (h * 0.5));
 			context.rotate(d.style.rotate() * Math.PI / 180);
 		}
 	},
