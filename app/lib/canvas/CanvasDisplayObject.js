@@ -64,9 +64,12 @@ var CanvasDisplayObject=function(){
 	_.appendChild=function(displayObject)
 	{
 		displayObject.style.parent=this;
-		displayObject.canvasUID=this.canvasUID;
 		this.children.push(displayObject);
-		CanvasRenderer.getCanvasByUID(this.canvasUID).appendChild(displayObject);
+		if(CanvasRenderer.getCanvasByUID(this.canvasUID))
+		{
+			displayObject.canvasUID=this.canvasUID;
+			CanvasRenderer.getCanvasByUID(this.canvasUID).appendChild(displayObject);			
+		}
 	};
 	/**
 	 removes an object to the CanvasDisplayObject

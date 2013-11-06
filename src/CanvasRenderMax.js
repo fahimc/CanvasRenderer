@@ -278,7 +278,7 @@ var Canvas = function() {
 (function() {
 	/** @scope Canvas */
 	var _ = Canvas.prototype;
-	
+
 	/**
 	 build the Canvas
 	 @public
@@ -355,6 +355,14 @@ var Canvas = function() {
 
 		displayObject.canvasUID = this.uid;
 		this.children.push(displayObject);
+
+		//add object children
+		for (var a = 0; a < displayObject.children.length; a++) {
+			if (displayObject.children[a].canvasUID == null) {
+				displayObject.children[a].canvasUID = this.uid;
+				this.children.push(displayObject.children[a]);
+			}
+		}
 		CanvasRenderer.render();
 	};
 	/**
@@ -368,6 +376,7 @@ var Canvas = function() {
 		for (var a = 0; a < this.children.length; a++) {
 			var d = this.children[a];
 			if (d.uid == displayObject.uid) {
+				displayObject.canvasUID=null;
 				this.children.splice(a, 1);
 				return;
 
@@ -439,9 +448,12 @@ var CanvasDisplayObject=function(){
 	_.appendChild=function(displayObject)
 	{
 		displayObject.style.parent=this;
-		displayObject.canvasUID=this.canvasUID;
 		this.children.push(displayObject);
-		CanvasRenderer.getCanvasByUID(this.canvasUID).appendChild(displayObject);
+		if(CanvasRenderer.getCanvasByUID(this.canvasUID))
+		{
+			displayObject.canvasUID=this.canvasUID;
+			CanvasRenderer.getCanvasByUID(this.canvasUID).appendChild(displayObject);			
+		}
 	};
 	/**
 	 removes an object to the CanvasDisplayObject
