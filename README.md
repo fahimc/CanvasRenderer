@@ -2,7 +2,9 @@ CanvasRenderer
 ==============
 
 [LATEST VERSION](https://github.com/fahimc/CanvasRenderer/tree/master/build)  
-[source code](https://github.com/fahimc/CanvasRenderer/tree/master/app/lib/canvas)
+[source code](https://github.com/fahimc/CanvasRenderer/tree/master/app/lib/canvas)  
+
+
 #About
 This is a library which enables canvas to have object which you can manipulate like DOM elements. The syntax is familiar as it acts like DOM elements. You set style attribute like this:
 
