@@ -16,11 +16,12 @@ var CanvasStyle=function(){
 	 @alias width
 	 @memberOf CanvasStyle
 	  @param {number} value width
+	  @param {boolean} noUpdate (optional) set true if you dont want to render the change
 	 @returns {Number}
 	 */
-	_.width=function(value)
+	_.width=function(value,noUpdate)
 	{
-		if(value!=undefined)this.updateProp('width',value);
+		if(value!=undefined)this.updateProp('width',value,noUpdate);
 
 		return this.props['width']!=undefined?(this.scaleX() * this.props['width'].value):0;
 	};
@@ -56,11 +57,12 @@ var CanvasStyle=function(){
 	 @alias height
 	 @memberOf CanvasStyle
 	  @param {Number} value height
+	    @param {boolean} noUpdate (optional) set true if you dont want to render the change
 	 @returns {Number}
 	 */
-	_.height=function(value)
+	_.height=function(value,noUpdate)
 	{
-		if(value!=undefined)this.updateProp('height',value);
+		if(value!=undefined)this.updateProp('height',value,noUpdate);
 		return this.props['height']!=undefined?((this.type==CanvasRenderer.types.CIRCLE?this.scaleX():this.scaleY()) * this.props['height'].value):0;
 	};
 	/**
@@ -114,6 +116,19 @@ var CanvasStyle=function(){
 	{
 		if(value!=undefined)this.updateProp('opacity',value);
 		return this.getNested('opacity',1);
+	};
+	/**
+	 set the rotate
+	 @public
+	 @alias rotate
+	 @memberOf CanvasStyle
+	  @param {Number} value from 0 to 360
+	 @returns {Number}
+	 */
+	_.rotate=function(value)
+	{
+		if(value!=undefined)this.updateProp('rotate',value);
+		return this.props['rotate']!=undefined?(this.props['rotate'].value):null;
 	};
 	/**
 	 set the backgroundColor
@@ -207,14 +222,14 @@ var CanvasStyle=function(){
 		if(value!=undefined)this.updateProp('strokeStyle',value);
 		return this.props['strokeStyle']!=undefined?this.props['strokeStyle'].value:"";
 	};
-	_.updateProp=function(name,val)
+	_.updateProp=function(name,val,noUpdate)
 	{
 		
 		if(!this.props[name])this.props[name]={value:val,updated:false};
 		this.props[name].value = val;
 		this.props[name].updated= true;
 		this.hasUpdates= true;
-		CanvasRenderer.render();
+		if(!noUpdate)CanvasRenderer.render();
 	};
 	_.getVal=function(name,val)
 	{

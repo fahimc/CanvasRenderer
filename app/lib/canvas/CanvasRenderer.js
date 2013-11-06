@@ -145,28 +145,32 @@ var CanvasRenderer = {
 	},
 	drawRect : function(canvas, d) {
 		var context = canvas.getContext('2d');
+		
 		context.beginPath();
+		this.setRotation(d, context);
 		context.rect(d.style.x(), d.style.y(), d.style.width(), d.style.height());
 		if (d.style.backgroundColor()) {
 			var rgb = this.hexToRgb(d.style.backgroundColor());
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
 		} else if (d.style.backgroundGradient()) {
-			
-			this.setGradientBG(d.style.backgroundGradient().type,context,d);
+
+			this.setGradientBG(d.style.backgroundGradient().type, context, d);
 		}
-			
+
 		if (d.style.strokeStyle()) {
 			rgb = this.hexToRgb(d.style.strokeStyle());
 			context.lineWidth = d.style.lineWidth();
 			context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 			context.stroke();
 		}
-
+		context.restore();
 	},
 	drawCircle : function(canvas, d) {
 		var context = canvas.getContext('2d');
+	
 		context.beginPath();
+		this.setRotation(d, context);
 		var radius = d.style.radius();
 		var centerX = d.style.x() + radius;
 		var centerY = d.style.y() + radius;
@@ -182,30 +186,42 @@ var CanvasRenderer = {
 			context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 			context.stroke();
 		}
+		context.restore();
 	},
 	drawText : function(canvas, d) {
 		var context = canvas.getContext('2d');
+		
+		context.font = d.style.font();
+		context.textBaseline = d.style.textBaseline();
+		context.textAlign = d.style.textAlign();
 		var rgb = this.hexToRgb(d.color());
 		context.fillStyle = rgb.replace('[x]', d.style.opacity());
-		context.textBaseline = d.style.textBaseline();
-		context.font = d.style.font();
 		context.lineWidth = d.style.lineWidth();
-		context.textAlign = d.style.textAlign();
+		this.setRotation(d, context, true);
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
+		context.restore();
 	},
 	drawImage : function(canvas, d) {
 		var context = canvas.getContext('2d');
+		
+		this.setRotation(d, context);
 		if (d.clipping != null) {
 			context.drawImage(d.img, d.clipping.x, d.clipping.y, d.clipping.w, d.clipping.h, d.style.x(), d.style.y(), d.style.width(), d.style.height());
 		} else {
 			context.drawImage(d.img, d.style.x(), d.style.y(), d.style.width(), d.style.height());
 		}
+		context.restore();
 	},
 	drawLine : function(canvas, d) {
 		var context = canvas.getContext('2d');
 		context.beginPath();
+		context.lineWidth = d.style.lineWidth();
+		rgb = this.hexToRgb(d.style.strokeStyle());
+		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
+		this.setRotation(d, context);
 		context.moveTo(d.style.x(), d.style.y());
+		
 		for (var name in d.lines) {
 			var line = d.lines[name];
 			switch(line.type) {
@@ -219,41 +235,50 @@ var CanvasRenderer = {
 					context.bezierCurveTo(line.cp1x, line.cp1y, line.cp2x, line.cp2y, line.x, line.y);
 					break;
 			}
-
 		}
 		if (d.style.backgroundColor()) {
 			var rgb = this.hexToRgb(d.style.backgroundColor());
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
 		}
-		context.lineWidth = d.style.lineWidth();
-		rgb = this.hexToRgb(d.style.strokeStyle());
-		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
+		
 		context.stroke();
+		context.restore();
 	},
-	setGradientBG:function(type,context,d)
-	{
+	setGradientBG : function(type, context, d) {
 		var positions = d.style.backgroundGradient().positions;
 		var x = d.style.x();
 		var y = d.style.y();
-			var colorStops = d.style.backgroundGradient().colorStops;
-			var grad;
-			switch(type)
-			{
-				case this.gradientType.LINEAR:
-				grad = context.createLinearGradient(x+positions[0], y+positions[1], x+positions[2], y+positions[3]);
+		var colorStops = d.style.backgroundGradient().colorStops;
+		var grad;
+		switch(type) {
+			case this.gradientType.LINEAR:
+				grad = context.createLinearGradient(x + positions[0], y + positions[1], x + positions[2], y + positions[3]);
 				break;
-				case this.gradientType.RADIAL:
-				grad = context.createRadialGradient(x+positions[0], y+positions[1], positions[2],x+positions[3], y+positions[4],positions[5]);
+			case this.gradientType.RADIAL:
+				grad = context.createRadialGradient(x + positions[0], y + positions[1], positions[2], x + positions[3], y + positions[4], positions[5]);
 				break;
+		}
+		if (colorStops) {
+			for (var c = 0; c < colorStops.length; c++) {
+				grad.addColorStop(colorStops[c][0], colorStops[c][1]);
 			}
-			if (colorStops) {
-				for (var c = 0; c < colorStops.length; c++) {
-					grad.addColorStop(colorStops[c][0], colorStops[c][1]);
-				}
+		}
+		context.fillStyle = grad;
+		context.fill();
+	},
+	setRotation : function(d, context, isText) {
+		if (d.style.rotate() != null) {
+			context.save();
+			var w = d.style.width();
+			var h = d.style.height();
+			if (isText) {
+				w = context.measureText(d.strokeText).width;
+				d.style.width(w,true);
 			}
-			context.fillStyle=grad;
-			context.fill();
+			context.translate(d.style.x() + (w * 0.5), d.style.y() + (h * 0.5));
+			context.rotate(d.style.rotate() * Math.PI / 180);
+		}
 	},
 	hexToRgb : function(hex) {
 		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

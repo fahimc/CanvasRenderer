@@ -183,13 +183,21 @@ var CanvasRenderer = {
 	},
 	drawText : function(canvas, d) {
 		var context = canvas.getContext('2d');
+		context.save();
+		if(d.style.rotate()!=null)
+		{
+			
+			context.rotate(d.style.rotate());
+		}
 		var rgb = this.hexToRgb(d.color());
 		context.fillStyle = rgb.replace('[x]', d.style.opacity());
 		context.textBaseline = d.style.textBaseline();
 		context.font = d.style.font();
 		context.lineWidth = d.style.lineWidth();
 		context.textAlign = d.style.textAlign();
+		
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
+		 context.restore();
 		context.stroke();
 	},
 	drawImage : function(canvas, d) {
@@ -842,6 +850,19 @@ var CanvasStyle=function(){
 	{
 		if(value!=undefined)this.updateProp('opacity',value);
 		return this.getNested('opacity',1);
+	};
+	/**
+	 set the rotate
+	 @public
+	 @alias rotate
+	 @memberOf CanvasStyle
+	  @param {Number} value from 0 to 360
+	 @returns {Number}
+	 */
+	_.rotate=function(value)
+	{
+		if(value!=undefined)this.updateProp('rotate',value*Math.PI/180);
+		return this.props['rotate']!=undefined?(this.props['rotate'].value/Math.PI/180):null;
 	};
 	/**
 	 set the backgroundColor

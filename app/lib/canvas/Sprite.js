@@ -3,6 +3,14 @@
  */
 var Sprite = function(){
 	this.lines=[];
+	
+};
+(function()
+{
+	Sprite.prototype = new CanvasDisplayObject();
+	Sprite.prototype.constructor = CanvasDisplayObject;
+	
+	var _ =Sprite.prototype;
 		/**
 	 set fill colour and opacity
 	 @public
@@ -11,7 +19,7 @@ var Sprite = function(){
 	  @param {String} color hex colour
 	 @param {Number} opacity 0 to 1
 	 */
-	this.beginFill=function(color,opacity)
+	_.beginFill=function(color,opacity)
 	{
 		if(!this.style)this.build();
 		this.style.backgroundColor(color);
@@ -26,7 +34,7 @@ var Sprite = function(){
 	 @param {Number} y y point
 	 @param {Number} r radius
 	 */
-	this.drawCircle=function(x, y, r)
+	_.drawCircle=function(x, y, r)
 	{
 		this.type="CIRCLE";
 		this.style.x(x);
@@ -45,7 +53,7 @@ var Sprite = function(){
 	 @param {Number} w width provide the width
 	 @param {Number} h height provide the height
 	 */
-	this.drawRect=function(x, y, w,h)
+	_.drawRect=function(x, y, w,h)
 	{
 		this.type=CanvasRenderer.types.RECT;
 		this.style.x(x);
@@ -61,7 +69,7 @@ var Sprite = function(){
 	  @param {Number} x x point
 	 @param {Number} y y point
 	 */
-	this.moveTo=function(x,y)
+	_.moveTo=function(x,y)
 	{
 		if(!this.style)this.build();
 		this.type="LINE";
@@ -77,8 +85,9 @@ var Sprite = function(){
 	  @param {Number} x x point
 	 @param {Number} y y point
 	 */
-	this.lineTo=function(x,y)
+	_.lineTo=function(x,y)
 	{
+		this.setWidthHeight(x,y);
 		this.lines.push({type:CanvasRenderer.lineType.LINE,x:x,y:y});
 		CanvasRenderer.render();
 	};
@@ -92,8 +101,9 @@ var Sprite = function(){
 	  @param {Number} x end x point
 	 @param {Number} y end y point
 	 */
-	this.quadraticCurveTo=function(cpx,cpy,x,y)
+	_.quadraticCurveTo=function(cpx,cpy,x,y)
 	{
+		this.setWidthHeight(x,y);
 		this.lines.push({type:CanvasRenderer.lineType.CURVE,x:x,y:y,cpx:cpx,cpy:cpy});
 		CanvasRenderer.render();
 	};
@@ -109,17 +119,15 @@ var Sprite = function(){
 	  @param {Number} x end x point
 	 @param {Number} y end y point
 	 */
-	this.bezierCurveTo=function(cp1x,cp1y,cp2x,cp2y,x,y)
+	_.bezierCurveTo=function(cp1x,cp1y,cp2x,cp2y,x,y)
 	{
+		this.setWidthHeight(x,y);
 		this.lines.push({type:CanvasRenderer.lineType.BEZIER_CURVE,x:x,y:y,cp1x:cp1x,cp1y:cp1y,cp2x:cp2x,cp2y:cp2y});
 		CanvasRenderer.render();
 	};
-};
-(function()
-{
-	Sprite.prototype = new CanvasDisplayObject();
-	Sprite.prototype.constructor = CanvasDisplayObject;
-	
-	
-	
+	_.setWidthHeight=function(x,y)
+	{
+		if(x>this.style.width())this.style.width(x,true);
+		if(y>this.style.height())this.style.width(y,true);
+	};
 })();
