@@ -31,11 +31,12 @@ var CanvasStyle=function(){
 	 @alias x
 	 @memberOf CanvasStyle
 	  @param {Number} value x
+	    @param {boolean} noUpdate (optional) set true if you dont want to render the change
 	 @returns {Number}
 	 */
-	_.x=function(value)
+	_.x=function(value,noUpdate)
 	{
-		if(value!=undefined)this.updateProp('x',value);
+		if(value!=undefined)this.updateProp('x',value,noUpdate);
 		return this.getVal('x',0);
 	};
 	/**
@@ -44,11 +45,12 @@ var CanvasStyle=function(){
 	 @alias y
 	 @memberOf CanvasStyle
 	  @param {Number} value y 
+	    @param {boolean} noUpdate (optional) set true if you dont want to render the change
 	 @returns {Number}
 	 */
-	_.y=function(value)
+	_.y=function(value,noUpdate)
 	{
-		if(value!=undefined)this.updateProp('y',value);
+		if(value!=undefined)this.updateProp('y',value,noUpdate);
 		return this.getVal('y',0);
 	};
 	/**

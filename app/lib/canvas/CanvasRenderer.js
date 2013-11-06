@@ -269,6 +269,7 @@ var CanvasRenderer = {
 	},
 	setRotation : function(d, context, isText) {
 		if (d.style.rotate() != null) {
+			var r = (d.style.rotate() + 1) % 360;
 			context.save();
 			var w = d.style.width();
 			var h = d.style.height();
@@ -276,8 +277,9 @@ var CanvasRenderer = {
 				w = context.measureText(d.strokeText).width;
 				d.style.width(w,true);
 			}
-			context.translate((w * 0.5),  (h * 0.5));
-			context.rotate(d.style.rotate() * Math.PI / 180);
+			context.translate(d.style.x()+(w * 0.5), d.style.y()+ (h * 0.5));
+			context.rotate(r * (Math.PI / 180));
+			context.translate(-(d.style.x()+(w * 0.5)), -(d.style.y()+ (h * 0.5)));
 		}
 	},
 	hexToRgb : function(hex) {
