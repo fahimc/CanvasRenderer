@@ -5,6 +5,10 @@ var CanvasStyle=function(){
 	this.parent =null;
 	this.hasUpdates=false;
 	this.props={
+		x:{value:0},
+		y:{value:0},
+		height:{value:0},
+		width:{value:0}
 	};
 };
 (function()

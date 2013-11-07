@@ -236,6 +236,7 @@ var CanvasRenderer = {
 		context.strokeStyle = rgb.replace('[x]', d.style.opacity());			
 		}
 		
+		console.log(d.strokeText,d.style.y(),d.style.parent.style.y());
 		this.setRotation(d, context, true);
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
