@@ -28,6 +28,7 @@ var TextField = function() {
 		}
 		return this._color;
 	};
+	
 };
 (function() {
 	TextField.prototype = new CanvasDisplayObject();

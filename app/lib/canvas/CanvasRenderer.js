@@ -42,6 +42,9 @@ var CanvasRenderer = {
 	children : [],
 	callbacks : [],
 	uid : 0,
+	renderCount:0,
+	rendering:false,
+	renderStartTime:null,
 	start : function() {
 
 	},
@@ -51,9 +54,37 @@ var CanvasRenderer = {
 	 @memberOf CanvasRenderer
 	 */
 	render : function() {
-		for (var a = 0; a < this.children.length; a++) {
-			this.checkChildren(this.children[a]);
+		
+		//check if rendering
+		if(this.rendering)
+		{
+			this.renderCount=1;
+			
+			//current time
+			var currentTime = new Date();
+			
+		}else{
+			this.renderStartTime=new Date();
+			this.rendering=true;
+			for (var a = 0; a < this.children.length; a++) {
+				this.checkChildren(this.children[a]);
+			}
+			var _this=this;
+			setTimeout(function(){_this.next();},35);	
 		}
+		
+		
+	},
+	next:function()
+	{
+		
+		this.rendering=false;
+		if(this.renderCount>0)
+		{
+			this.renderCount=0;
+			this.render();
+		}
+		
 	},
 	checkChildren : function(canvas) {
 		for (var b = 0; b < canvas.children.length; b++) {
