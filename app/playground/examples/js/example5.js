@@ -38,7 +38,7 @@
 		rect.style.backgroundGradient(CanvasRenderer.gradientType.LINEAR,[0,0,0,100],[[0,"#3F4C6B"],[1,"#9F3C9B"]]);
 		canvas.appendChild(rect);
 		
-		
+		rect.style.rotate(45);
 		
 		
 		//create a line
@@ -70,7 +70,13 @@
 		canvas.appendChild(custom);
 		
 		
-		
+		this.label = new TextField();
+		this.label.build();
+		this.label.text("PRICE");
+		this.label.style.rotate(-90);
+		this.label.style.font('12px Arial #FFFFFF');
+		this.label.color('#FFFFFF');
+		canvas.appendChild(this.label);
 		
 	}
 

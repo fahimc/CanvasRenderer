@@ -1,4 +1,4 @@
-/*! CanvasRenderer - v0.0.1 - 2013-11-06 */
+/*! CanvasRenderer - v0.0.1 - 2013-11-07 */
 var CanvasRenderer = {
 	/**
 	 * @property {Object} types types of elements
@@ -192,9 +192,17 @@ var CanvasRenderer = {
 		context.font = d.style.font();
 		context.textBaseline = d.style.textBaseline();
 		context.textAlign = d.style.textAlign();
+		
 		var rgb = this.hexToRgb(d.color());
 		context.fillStyle = rgb.replace('[x]', d.style.opacity());
-		context.lineWidth = d.style.lineWidth();
+		
+		if(d.style.lineWidth())context.lineWidth = d.style.lineWidth();
+		if(d.style.strokeStyle())
+		{
+		rgb = this.hexToRgb(d.style.strokeStyle());
+		context.strokeStyle = rgb.replace('[x]', d.style.opacity());			
+		}
+		
 		this.setRotation(d, context, true);
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
@@ -1195,7 +1203,11 @@ var CanvasTween = {
 
 var Sprite = function(){
 	this.lines=[];
-	
+	this._moveTo=
+	{
+		x:0,
+		y:0
+	};
 };
 (function()
 {
@@ -1263,6 +1275,8 @@ var Sprite = function(){
 	 */
 	_.moveTo=function(x,y)
 	{
+		this._moveTo.x=x;
+		this._moveTo.y=y;
 		if(!this.style)this.build();
 		this.type="LINE";
 		this.style.x(x);
@@ -1279,8 +1293,10 @@ var Sprite = function(){
 	 */
 	_.lineTo=function(x,y)
 	{
-		this.setWidthHeight(x,y);
-		this.lines.push({type:CanvasRenderer.lineType.LINE,x:x,y:y});
+		var parentX = this.style.x()-this._moveTo.x;
+		var parentY = this.style.y()-this._moveTo.y;
+		this.setWidthHeight(parentX+x,parentY+y);
+		this.lines.push({type:CanvasRenderer.lineType.LINE,x:parentX+x,y:parentY+y});
 		CanvasRenderer.render();
 	};
 	/**
@@ -1295,8 +1311,10 @@ var Sprite = function(){
 	 */
 	_.quadraticCurveTo=function(cpx,cpy,x,y)
 	{
-		this.setWidthHeight(x,y);
-		this.lines.push({type:CanvasRenderer.lineType.CURVE,x:x,y:y,cpx:cpx,cpy:cpy});
+		var parentX = this.style.x()-this._moveTo.x;
+		var parentY = this.style.y()-this._moveTo.y;
+		this.setWidthHeight(parentX+x,parentY+y);
+		this.lines.push({type:CanvasRenderer.lineType.CURVE,x:parentX+x,y:parentY+y,cpx:parentX+cpx,cpy:parentY+cpy});
 		CanvasRenderer.render();
 	};
 	/**
@@ -1313,8 +1331,10 @@ var Sprite = function(){
 	 */
 	_.bezierCurveTo=function(cp1x,cp1y,cp2x,cp2y,x,y)
 	{
-		this.setWidthHeight(x,y);
-		this.lines.push({type:CanvasRenderer.lineType.BEZIER_CURVE,x:x,y:y,cp1x:cp1x,cp1y:cp1y,cp2x:cp2x,cp2y:cp2y});
+		var parentX = this.style.x()-this._moveTo.x;
+		var parentY = this.style.y()-this._moveTo.y;
+		this.setWidthHeight(parentX+x,parentY+y);
+		this.lines.push({type:CanvasRenderer.lineType.BEZIER_CURVE,x:parentX+x,y:parentY+y,cp1x:parentX+cp1x,cp1y:parentY+cp1y,cp2x:parentX+cp2x,cp2y:parentY+cp2y});
 		CanvasRenderer.render();
 	};
 	_.setWidthHeight=function(x,y)

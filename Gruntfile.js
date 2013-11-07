@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 			},
 			dist : {
 				src : ['app/lib/canvas/CanvasRenderer.js', 'app/lib/canvas/Canvas.js', 'app/lib/canvas/CanvasDisplayObject.js', 'app/lib/canvas/*.js'],
-				dest : 'src/CanvasRenderMax.js'
+				dest : 'build/CanvasRenderMax.js'
 			}
 		},
 		uglify : {
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 			},
 			dist : {
 				files : {
-					'src/CanvasRenderMax.min.js' : ['<%= concat.dist.dest %>']
+					'build/CanvasRenderMax.min.js' : ['<%= concat.dist.dest %>']
 				}
 			}
 		}

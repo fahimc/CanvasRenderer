@@ -194,9 +194,17 @@ var CanvasRenderer = {
 		context.font = d.style.font();
 		context.textBaseline = d.style.textBaseline();
 		context.textAlign = d.style.textAlign();
+		
 		var rgb = this.hexToRgb(d.color());
 		context.fillStyle = rgb.replace('[x]', d.style.opacity());
-		context.lineWidth = d.style.lineWidth();
+		
+		if(d.style.lineWidth())context.lineWidth = d.style.lineWidth();
+		if(d.style.strokeStyle())
+		{
+		rgb = this.hexToRgb(d.style.strokeStyle());
+		context.strokeStyle = rgb.replace('[x]', d.style.opacity());			
+		}
+		
 		this.setRotation(d, context, true);
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
