@@ -1,4 +1,4 @@
-/*! CanvasRenderer - v0.0.1 - 2013-11-07 */
+/*! CanvasRenderer - v0.0.1 - 2013-11-08 */
 var CanvasRenderer = {
 	/**
 	 * @property {Object} types types of elements
@@ -235,6 +235,10 @@ var CanvasRenderer = {
 		}
 		
 		this.setRotation(d, context, true);
+		var w = context.measureText(d.strokeText).width;
+
+		d.style.width(w,true);
+		
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
 		context.restore();
@@ -253,7 +257,7 @@ var CanvasRenderer = {
 	drawLine : function(canvas, d) {
 		var context = canvas.getContext('2d');
 		context.beginPath();
-		context.lineWidth = d.style.lineWidth();
+		
 		rgb = this.hexToRgb(d.style.strokeStyle());
 		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 		this.setRotation(d, context);
@@ -278,7 +282,7 @@ var CanvasRenderer = {
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
 		}
-		
+		context.lineWidth = d.style.lineWidth();
 		context.stroke();
 		context.restore();
 	},
@@ -802,7 +806,9 @@ var CanvasStyle=function(){
 		x:{value:0},
 		y:{value:0},
 		height:{value:0},
-		width:{value:0}
+		width:{value:0},
+		lineWidth:{value:1},
+		opacity:{value:1}
 	};
 };
 (function()
@@ -1007,7 +1013,7 @@ var CanvasStyle=function(){
 	_.lineWidth=function(value)
 	{
 		if(value!=undefined)this.updateProp('lineWidth',value);
-		return this.props['lineWidth']!=undefined?this.props['lineWidth'].value:"";
+		return this.props['lineWidth']!=undefined?this.props['lineWidth'].value:1;
 	};
 	/**
 	 set the strokeStyle
@@ -1025,7 +1031,7 @@ var CanvasStyle=function(){
 	_.updateProp=function(name,val,noUpdate)
 	{
 		
-		if(!this.props[name])this.props[name]={value:val,updated:false};
+		if(this.props[name]==null||this.props[name]==undefined)this.props[name]={value:val,updated:false};
 		this.props[name].value = val;
 		this.props[name].updated= true;
 		this.hasUpdates= true;
@@ -1392,6 +1398,20 @@ var TextField = function() {
 	this.text = function(value) {
 
 		this.strokeText = value;
+
+		//set width
+		var canvas = CanvasRenderer.getCanvasByUID(this.canvasUID);
+		if (canvas) {
+			context = canvas.getContext('2d');
+			context.font = this.style.font();
+			context.textBaseline = this.style.textBaseline();
+			context.textAlign = this.style.textAlign();
+
+			var w = context.measureText(this.strokeText).width;
+
+			this.style.width(w, true);
+		}
+
 		CanvasRenderer.render();
 	};
 	/**
@@ -1406,7 +1426,7 @@ var TextField = function() {
 		}
 		return this._color;
 	};
-	
+
 };
 (function() {
 	TextField.prototype = new CanvasDisplayObject();

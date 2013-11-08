@@ -14,6 +14,20 @@ var TextField = function() {
 	this.text = function(value) {
 
 		this.strokeText = value;
+
+		//set width
+		var canvas = CanvasRenderer.getCanvasByUID(this.canvasUID);
+		if (canvas) {
+			context = canvas.getContext('2d');
+			context.font = this.style.font();
+			context.textBaseline = this.style.textBaseline();
+			context.textAlign = this.style.textAlign();
+
+			var w = context.measureText(this.strokeText).width;
+
+			this.style.width(w, true);
+		}
+
 		CanvasRenderer.render();
 	};
 	/**
@@ -28,7 +42,7 @@ var TextField = function() {
 		}
 		return this._color;
 	};
-	
+
 };
 (function() {
 	TextField.prototype = new CanvasDisplayObject();

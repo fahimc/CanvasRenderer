@@ -237,6 +237,10 @@ var CanvasRenderer = {
 		}
 		
 		this.setRotation(d, context, true);
+		var w = context.measureText(d.strokeText).width;
+
+		d.style.width(w,true);
+		
 		context.fillText(d.strokeText, d.style.x(), d.style.y());
 		context.stroke();
 		context.restore();
@@ -255,7 +259,7 @@ var CanvasRenderer = {
 	drawLine : function(canvas, d) {
 		var context = canvas.getContext('2d');
 		context.beginPath();
-		context.lineWidth = d.style.lineWidth();
+		
 		rgb = this.hexToRgb(d.style.strokeStyle());
 		context.strokeStyle = rgb.replace('[x]', d.style.opacity());
 		this.setRotation(d, context);
@@ -280,7 +284,7 @@ var CanvasRenderer = {
 			context.fillStyle = rgb.replace('[x]', d.style.opacity());
 			context.fill();
 		}
-		
+		context.lineWidth = d.style.lineWidth();
 		context.stroke();
 		context.restore();
 	},

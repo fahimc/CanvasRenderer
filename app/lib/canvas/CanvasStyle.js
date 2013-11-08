@@ -8,7 +8,9 @@ var CanvasStyle=function(){
 		x:{value:0},
 		y:{value:0},
 		height:{value:0},
-		width:{value:0}
+		width:{value:0},
+		lineWidth:{value:1},
+		opacity:{value:1}
 	};
 };
 (function()
@@ -213,7 +215,7 @@ var CanvasStyle=function(){
 	_.lineWidth=function(value)
 	{
 		if(value!=undefined)this.updateProp('lineWidth',value);
-		return this.props['lineWidth']!=undefined?this.props['lineWidth'].value:"";
+		return this.props['lineWidth']!=undefined?this.props['lineWidth'].value:1;
 	};
 	/**
 	 set the strokeStyle
@@ -231,7 +233,7 @@ var CanvasStyle=function(){
 	_.updateProp=function(name,val,noUpdate)
 	{
 		
-		if(!this.props[name])this.props[name]={value:val,updated:false};
+		if(this.props[name]==null||this.props[name]==undefined)this.props[name]={value:val,updated:false};
 		this.props[name].value = val;
 		this.props[name].updated= true;
 		this.hasUpdates= true;
