@@ -45,6 +45,7 @@ var CanvasRenderer = {
 	renderCount:0,
 	rendering:false,
 	renderStartTime:null,
+	timer:null,
 	start : function() {
 
 	},
@@ -70,7 +71,12 @@ var CanvasRenderer = {
 				this.checkChildren(this.children[a]);
 			}
 			var _this=this;
-			setTimeout(function(){_this.next();},35);	
+			if(this.timer)
+			{
+				clearTimeout(this.timer);
+				this.timer=null;
+			}
+			this.timer = setTimeout(function(){_this.next();},35);	
 		}
 		
 		

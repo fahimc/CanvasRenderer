@@ -1,4 +1,4 @@
-/*! CanvasRenderer - v0.0.1 - 2013-11-08 */
+/*! CanvasRenderer - v0.0.1 - 2014-02-17 */
 var CanvasRenderer = {
 	/**
 	 * @property {Object} types types of elements
@@ -43,6 +43,7 @@ var CanvasRenderer = {
 	renderCount:0,
 	rendering:false,
 	renderStartTime:null,
+	timer:null,
 	start : function() {
 
 	},
@@ -68,7 +69,12 @@ var CanvasRenderer = {
 				this.checkChildren(this.children[a]);
 			}
 			var _this=this;
-			setTimeout(function(){_this.next();},35);	
+			if(this.timer)
+			{
+				clearTimeout(this.timer);
+				this.timer=null;
+			}
+			this.timer = setTimeout(function(){_this.next();},35);	
 		}
 		
 		
